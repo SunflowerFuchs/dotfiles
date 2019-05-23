@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # sudo alias for alias passthrough to sudo
 alias sudo="sudo "
 
@@ -45,4 +47,4 @@ alias -s php=php
 alias -s log=cat
 
 # source job-specific aliases
-source ./.zsh_aliases.d/*
+[[ -n $(ls -A $ZDOTDIR/.zsh_aliases.d/) ]] && source $ZDOTDIR/.zsh_aliases.d/*
