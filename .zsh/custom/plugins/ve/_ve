@@ -1,0 +1,26 @@
+#compdef ve
+
+local vals=(
+  'list[Lists current virtual environments]'
+  'help[Prints this help message and exits]'
+  'new[Creates a new virtual environment in your VIRTUALENV_DIR (with an optional description)]'
+  'rm[Deletes the given virtual environment from your VIRTUALENV_DIR]'
+)
+
+_arguments -C \
+  '1: :->cmds' \
+  '2: :->args' && ret=0
+
+case $state in
+  cmds)
+    _values 'commands' $vals && ret=0
+    _values -O 'environments' 'environments' $(ve list | tail -n+3) && ret=0
+    ;;
+  args)
+    case $line[1] in
+      rm)
+        _values 'environments' $(ve list | tail -n+3) && ret=0
+        ;;
+    esac
+    ;;
+esac

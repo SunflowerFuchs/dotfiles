@@ -1,0 +1,48 @@
+# sudo alias for alias passthrough to sudo
+alias sudo="sudo "
+
+# ls aliases
+alias l="ls -lah --group-directories-first"
+alias la="ls -lAh --group-directories-first"
+alias ll="ls -lh --group-directories-first"
+
+# error preventers
+alias df="df -h -x supermount"
+alias du="du -h"
+
+# shortcuts
+alias pwgen="pwgen -cCBnsyv 16 64"
+alias nocomment="grep -Ev '^(#|;|$|(//)|(--))'"
+alias ducks="du -cksh * | sort -rh | head -11"
+alias pcp="rsync -avzh --progress"
+alias progress="progress -M"
+alias p="progress"
+alias clear="clear; tmux clear-history"
+alias coverage="phpunit --coverage-html /var/www/coverage/"
+alias t="task"
+alias docker="sudo docker"
+
+# setting default options
+alias grep="grep --text --color --ignore-case"
+alias pstree="pstree -s -p -a -G"
+alias pgrep="pgrep -fa"
+alias mkdir="mkdir --parents"
+alias fzf="fzf --preview='head -100 {}'"
+alias php="XDEBUG_CONFIG='idekey=PHPSTORM' php"
+
+# git aliases
+alias gl="git log --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr, %cd) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short"
+alias gh="gh-home"
+
+# global aliases
+alias -g G='2>&1| ag'
+alias -g Q='>/dev/null 2>&1'
+alias -g UROOT='--login-path=lpsql'
+
+# zsh-specific default application aliases
+alias -s json=micro
+alias -s php=php
+alias -s log=cat
+
+# source job-specific aliases
+source ./.zsh_aliases.d/*

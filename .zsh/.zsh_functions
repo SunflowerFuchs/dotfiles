@@ -1,0 +1,51 @@
+#!/usr/bin/env zsh
+
+# function to create a local backup of files
+bu() { cp $@ $@.backup-`date +%Y%m%d`; }
+
+# pretty-print csv files
+function pretty_csv {
+    column -t -s, -n "$@" | less -F -S -X -K
+}
+
+# pretty-print tsv files
+function pretty_tsv {
+    column -t -s $'\t' -n "$@" | less -F -S -X -K
+}
+
+# add alias for unzip to always unzip into separate directory
+function unzip {
+    [[ $# -lt 1 ]] && echo "" && return # test
+    local file
+    for f in $@; do
+        file=$(echo $@ | sed 's/.zip$//')
+        /usr/bin/unzip "${file}.zip" -d "$file"
+    done
+}
+
+# reset git repo to last commit
+function gr {
+    read "choice?Reset repo? [Y/n] "
+    choice=${choice:l} #tolower
+    case "$choice" in
+      y|yes ) git reset --hard HEAD;;
+      * ) return;;
+    esac
+}
+
+# call mkcert with each domain name set in nginx/sites-enabled/
+function mkcert-quick {
+    mkcert -cert-file ~/Documents/certificates/local/my.dev.lamapoll.pem -key-file ~/Documents/certificates/local/my.dev.lamapoll-key.pem $(ag 'server_name' --follow --nonumbers --group /etc/nginx/sites-enabled/ | ag 'server_name( [a-zA-Z0-9.]+)+' | ag --invert-match '^\s*#' | perl -0p -e 's/(?:server_name )(.+)(?:;)/$1/g' | tr ' ' '\n' | tr -d '\t ' | sort | uniq | ag '^[A-Za-z0-9\.]+$' | tr '\n' ' ' | awk '{print $0" localhost"}')
+}
+
+# show the weather
+function wttr {
+    local request="wttr.in/${1-Berlin}"
+    [ "$COLUMNS" -lt 125 ] && request+='?n'
+    curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
+}
+
+# print a random assortment of / and \ forever
+function wallpaper { while true; do printf "\u$((2571 + ($RANDOM & 1)))"; done }
+
+source ./.zsh_functions.d/*

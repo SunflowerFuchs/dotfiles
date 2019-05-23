@@ -1,0 +1,5 @@
+.zsh_history
+.zcompdump*
+*.backup-*
+.zsh_aliases.d/*
+.zsh_functions.d/*
