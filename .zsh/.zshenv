@@ -25,8 +25,15 @@ if [ -x "$(command -v mkcert)" ]; then
 fi
 
 # tmux vars
-[ -z "$ZSH_TMUX_AUTOSTART" ] && export ZSH_TMUX_AUTOSTART=true
-[ -z "$ZSH_TMUX_AUTOCONNECT" ] && export ZSH_TMUX_AUTOCONNECT=false
+if [ -x "$(command -v Xorg)" ]; then
+    # in graphical environments
+    [ -z "$ZSH_TMUX_AUTOSTART" ] && export ZSH_TMUX_AUTOSTART=true
+    [ -z "$ZSH_TMUX_AUTOCONNECT" ] && export ZSH_TMUX_AUTOCONNECT=false
+else
+    # in terminal-only environments
+    [ -z "$ZSH_TMUX_AUTOSTART" ] && export ZSH_TMUX_AUTOSTART=true
+    [ -z "$ZSH_TMUX_AUTOCONNECT" ] && export ZSH_TMUX_AUTOCONNECT=true
+fi
 
 # prevent ZSH from eating the space before pipe or ampersand characters
 ZLE_REMOVE_SUFFIX_CHARS=""
