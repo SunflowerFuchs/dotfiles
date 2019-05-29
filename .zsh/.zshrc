@@ -66,7 +66,9 @@ unsetopt BANGHIST                # Don't use ! as history shortcuts
 autoload -U compinit && compinit
 
 # Gulp completion
-eval "$(gulp --completion=zsh)"
+if [ -x "$(command -v gulp)" ]; then
+    eval "$(gulp --completion=zsh)"
+fi
 
 # show terminal startup messages
 [ -f $ZDOTDIR/.zsh_message ] && source $ZDOTDIR/.zsh_message
