@@ -15,8 +15,8 @@ export PAGER="most"
 export LESS="-Rx4"
 
 # path variables for executables and zsh completion
-export PATH="/home/developer/.gem/ruby/2.3.0/bin:$PATH"
-export fpath=("$HOME/.oh-my-zsh/custom/completions" "/usr/share/zsh/vendor-completions" $fpath)
+export PATH="${HOME}/.gem/ruby/2.3.0/bin:$PATH"
+export fpath=("${HOME}/.oh-my-zsh/custom/completions" "/usr/share/zsh/vendor-completions" $fpath)
 
 # Add my local cert to the NODE cert storage
 if [ -x "$(command -v mkcert)" ]; then
