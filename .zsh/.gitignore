@@ -3,3 +3,4 @@
 *.backup-*
 .zsh_aliases.d/*
 .zsh_functions.d/*
+.fzf.zsh
