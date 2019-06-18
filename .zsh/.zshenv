@@ -15,7 +15,7 @@ export PAGER="most"
 export LESS="-Rx4"
 
 # path variables for executables and zsh completion
-export PATH="${HOME}/.gem/ruby/2.3.0/bin:$PATH"
+# export PATH="${HOME}/.gem/ruby/2.3.0/bin:$PATH" # not sure if still needed?
 export fpath=("${HOME}/.oh-my-zsh/custom/completions" "/usr/share/zsh/vendor-completions" $fpath)
 
 # Add my local cert to the NODE cert storage
@@ -36,7 +36,7 @@ else
 fi
 
 # prevent ZSH from eating the space before pipe or ampersand characters
-ZLE_REMOVE_SUFFIX_CHARS=""
+export ZLE_REMOVE_SUFFIX_CHARS=""
 
 # enable truecolor in micro
 export MICRO_TRUECOLOR=1
