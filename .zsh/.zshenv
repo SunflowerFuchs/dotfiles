@@ -36,7 +36,7 @@ else
 fi
 
 # prevent ZSH from eating the space before pipe or ampersand characters
-ZLE_REMOVE_SUFFIX_CHARS=""
+export ZLE_REMOVE_SUFFIX_CHARS=""
 
 # enable truecolor in micro
 export MICRO_TRUECOLOR=1
