@@ -15,7 +15,7 @@ export PAGER="most"
 export LESS="-Rx4"
 
 # path variables for executables and zsh completion
-export PATH="${HOME}/.gem/ruby/2.3.0/bin:$PATH"
+export PATH="${HOME}/.local/bin:${HOME}/.gem/ruby/2.3.0/bin:$PATH:/usr/sbin:/sbin"
 export fpath=("${HOME}/.oh-my-zsh/custom/completions" "/usr/share/zsh/vendor-completions" $fpath)
 
 # Add my local cert to the NODE cert storage
@@ -47,3 +47,5 @@ export BLUE=$(tput setaf 4)
 export GREEN=$(tput setaf 2)
 export YELLOW=$(tput setaf 3)
 export NC=$(tput sgr0) # No Color
+
+[[ -n $(ls -A $ZDOTDIR/.zshenv.d/ 2>/dev/null) ]] && source $ZDOTDIR/.zshenv.d/*
