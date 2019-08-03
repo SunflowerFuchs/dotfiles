@@ -11,12 +11,23 @@ export VISUAL="micro"
 export EDITOR="$VISUAL"
 
 # pager stuff
-export PAGER="most"
-export LESS="-Rx4"
+if [ -x "$(command -v less)" ]; then
+    export PAGER="less"
+    export LESS="-Rx4"
+fi
+if [ -x "$(command -v most)" ]; then
+    export PAGER="most"
+fi
 
 # path variables for executables and zsh completion
-export PATH="${HOME}/.local/bin:${HOME}/.gem/ruby/2.3.0/bin:$PATH:/usr/sbin:/sbin"
+export PATH="$PATH:/usr/sbin:/sbin"
 export fpath=("${HOME}/.oh-my-zsh/custom/completions" "/usr/share/zsh/vendor-completions" $fpath)
+if [ -x "$(command -v gem)" ]; then
+    export PATH="$(gem environment gempath):${PATH}"
+fi
+if [ -d "${HOME}/.local/bin" ]; then
+    export PATH="${HOME}/.local/bin:$PATH:/usr/sbin:/sbin"
+fi
 
 # Add my local cert to the NODE cert storage
 if [ -x "$(command -v mkcert)" ]; then
