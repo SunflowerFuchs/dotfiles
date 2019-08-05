@@ -59,4 +59,8 @@ export GREEN=$(tput setaf 2)
 export YELLOW=$(tput setaf 3)
 export NC=$(tput sgr0) # No Color
 
-[[ -n $(ls -A $ZDOTDIR/.zshenv.d/ 2>/dev/null) ]] && source $ZDOTDIR/.zshenv.d/*
+if [[ -n $(ls -A $ZDOTDIR/.zshenv.d/ 2>/dev/null) ]]; then
+    for f in $ZDOTDIR/.zshenv.d/*; do
+        source "$f"
+    done
+fi
