@@ -15,11 +15,31 @@ function pretty_tsv {
 
 # add alias for unzip to always unzip into separate directory
 function unzip {
-    [[ $# -lt 1 ]] && echo "" && return # test
-    local file
+    # test if file was given
+    [[ $# -lt 1 ]] && echo "" && return
+
     for f in $@; do
-        file=$(echo $@ | sed 's/.zip$//')
-        /usr/bin/unzip "${file}.zip" -d "$file"
+        name=$(echo $@ | sed 's/.zip$//')
+
+        list=$(/usr/bin/zipinfo -1 $1)
+
+        # check if file contains single file, then we can just unzip as is
+        filecount=$(echo "${list}" | wc -l)
+        if [[ ${filecount} -eq 1 ]]; then
+            /usr/bin/unzip "${name}.zip"
+            continue
+        fi
+
+        # check if everything in the file is already in a subfolder, then we can just unzip as is
+        folder=$(echo "${list}" | head -1)
+        notInFolder=$(echo "${list}" | grep -ve "^${folder}" | wc -l)
+        if [[ ${notInFolder} -eq 0 ]]; then
+            /usr/bin/unzip "${name}.zip"
+            continue
+        fi
+
+        # in any other case we unzip into a subfolder
+        /usr/bin/unzip "${name}.zip" -d "$name"
     done
 }
 
