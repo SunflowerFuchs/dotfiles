@@ -68,4 +68,8 @@ function wttr {
 # print a random assortment of / and \ forever
 function wallpaper { while true; do printf "\u$((2571 + ($RANDOM & 1)))"; done }
 
-[[ -n $(ls -A $ZDOTDIR/.zsh_functions.d/ 2>/dev/null) ]] && source $ZDOTDIR/.zsh_functions.d/*
+if [[ -n $(ls -A $ZDOTDIR/.zsh_functions.d/ 2>/dev/null) ]];then
+    for f in $ZDOTDIR/.zsh_functions.d/*; do
+        source "$f"
+    done
+fi
