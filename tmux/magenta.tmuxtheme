@@ -28,7 +28,7 @@ set -g status-right-fg colour243
 set -g status-right-length 150
 set -g status-right \
 "#[fg=colour235,bg=colour233]#[fg=colour240,bg=colour235] #H "\
-"#[fg=colour125,bg=colour233]#[fg=colour233,bg=colour125] %d-%b-%y "\
+"#[fg=colour125,bg=colour235]#[fg=colour233,bg=colour125] %d-%b-%y "\
 "#[fg=colour28,bg=colour125]#[fg=colour226,bg=colour28,bold] #(upower -i $(upower -e | grep bat) | grep 'percentage' | grep -Eo '[0-9]+%') "
 
 # Window status
