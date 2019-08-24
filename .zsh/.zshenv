@@ -47,3 +47,6 @@ export BLUE=$(tput setaf 4)
 export GREEN=$(tput setaf 2)
 export YELLOW=$(tput setaf 3)
 export NC=$(tput sgr0) # No Color
+
+# source custom env files
+[[ -n $(ls -A $ZDOTDIR/.zshenv.d/ 2>/dev/null) ]] && source $ZDOTDIR/.zshenv.d/*
