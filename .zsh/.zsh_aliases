@@ -47,4 +47,8 @@ alias -s php=php
 alias -s log=cat
 
 # source job-specific aliases
-[[ -n $(ls -A $ZDOTDIR/.zsh_aliases.d/ 2>/dev/null) ]] && source $ZDOTDIR/.zsh_aliases.d/*
+if [[ -n $(ls -A $ZDOTDIR/.zsh_aliases.d/ 2>/dev/null) ]]; then
+    for f in $ZDOTDIR/.zsh_aliases.d/*; do
+        source "$f"
+    done
+fi

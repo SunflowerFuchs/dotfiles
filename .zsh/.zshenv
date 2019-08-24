@@ -11,12 +11,23 @@ export VISUAL="micro"
 export EDITOR="$VISUAL"
 
 # pager stuff
-export PAGER="most"
-export LESS="-Rx4"
+if [ -x "$(command -v less)" ]; then
+    export PAGER="less"
+    export LESS="-Rx4"
+fi
+if [ -x "$(command -v most)" ]; then
+    export PAGER="most"
+fi
 
 # path variables for executables and zsh completion
-export PATH="${HOME}/.gem/ruby/2.3.0/bin:$PATH"
+export PATH="$PATH:/usr/sbin:/sbin"
 export fpath=("${HOME}/.oh-my-zsh/custom/completions" "/usr/share/zsh/vendor-completions" $fpath)
+if [ -x "$(command -v gem)" ]; then
+    export PATH="$(gem environment gempath):${PATH}"
+fi
+if [ -d "${HOME}/.local/bin" ]; then
+    export PATH="${HOME}/.local/bin:$PATH:/usr/sbin:/sbin"
+fi
 
 # Add my local cert to the NODE cert storage
 if [ -x "$(command -v mkcert)" ]; then
@@ -36,7 +47,7 @@ else
 fi
 
 # prevent ZSH from eating the space before pipe or ampersand characters
-ZLE_REMOVE_SUFFIX_CHARS=""
+export ZLE_REMOVE_SUFFIX_CHARS=""
 
 # enable truecolor in micro
 export MICRO_TRUECOLOR=1
@@ -48,5 +59,8 @@ export GREEN=$(tput setaf 2)
 export YELLOW=$(tput setaf 3)
 export NC=$(tput sgr0) # No Color
 
-# source custom env files
-[[ -n $(ls -A $ZDOTDIR/.zshenv.d/ 2>/dev/null) ]] && source $ZDOTDIR/.zshenv.d/*
+if [[ -n $(ls -A $ZDOTDIR/.zshenv.d/ 2>/dev/null) ]]; then
+    for f in $ZDOTDIR/.zshenv.d/*; do
+        source "$f"
+    done
+fi
