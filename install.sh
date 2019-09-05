@@ -6,6 +6,8 @@ sudo apt update > /dev/null 2>&1
 sudo apt upgrade --yes > /dev/null 2>&1
 
 dotfiles="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+USER="${USER:-$(whoami)}"
+HOME="${HOME:-~$USER}"
 
 getCurl() {
     if [[ ! -x "$(command -v curl)" ]]; then
@@ -31,11 +33,14 @@ getMicro() {
 
     if [[ ! -x "$(command -v micro)" ]]; then
         echo "Installing micro..."
+        # micro tries putting itself into the current folder, so i try to deal with ambiguity by switching to /tmp
+        cd /tmp/
         curl -fsSLo /tmp/install.sh https://getmic.ro >/dev/null
         chmod u+x /tmp/install.sh
         /tmp/install.sh > /dev/null 2>&1
         rm /tmp/install.sh
-        sudo mv micro/micro /usr/local/bin/micro
+        sudo mv /tmp/micro /usr/local/bin/micro
+        cd "${dotfiles}"
     fi
 
     if [[ ! -x "$(command -v xsel)" ]]; then
@@ -56,23 +61,23 @@ getZsh() {
     if [[ ! -x "$(command -v zsh)" ]]; then
         echo "Installing zsh..."
         new=true
-        sudo apt install --yes zsh > /dev/null 2>&1
+        sudo apt install --yes zsh #> /dev/null 2>&1
+        echo "Setting zsh as default shell for ${USER}"
         sudo chsh -s "$(command -v zsh)" "${USER}"
     fi
 
-    if $new || [[ ! -d "$(zsh -c 'echo $ZSH')" ]]; then
+    if $new || [[ ! -d "${HOME}/.oh-my-zsh/" ]]; then
         echo "Installing oh-my-zsh..."
         curl -fsSLo /tmp/install.sh "https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh" > /dev/null
         chmod u+x /tmp/install.sh
         /tmp/install.sh --unattended > /dev/null
         rm /tmp/install.sh
-        echo 'export ZDOTDIR="${HOME}/.zsh"' >> "${HOME}/.profile"
-        echo 'ZDOTDIR="$HOME/.zsh"' > "${HOME}/.zshenv"
-        echo '. "$ZDOTDIR/.zshenv"' >> "${HOME}/.zshenv"
-
+        echo 'export ZDOTDIR="${HOME}/.zsh"' >> "${HOME}/.zshrc"
+        echo 'source "${ZDOTDIR}/.zshrc"' >> "${HOME}/.zshrc"
     fi
 
     ln -s "${dotfiles}/.zsh/" "${HOME}/.zsh"
+    rm "${HOME}/.zshrc"
     ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom"
 
     # installing the theme
