@@ -76,12 +76,12 @@ getZsh() {
     ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom"
 
     # installing the theme
-    mkdir "${ZSH_CUSTOM}/themes/"
+    mkdir -p "${ZSH_CUSTOM}/themes/"
     git clone https://github.com/denysdovhan/spaceship-prompt.git "${ZSH_CUSTOM}/themes/spaceship-prompt" > /dev/null
     ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "${ZSH_CUSTOM}/themes/spaceship.zsh-theme"
 
     # adding plugins
-    mkdir "${ZSH_CUSTOM}/plugins/"
+    mkdir -p "${ZSH_CUSTOM}/plugins/"
     ln -s "${dotfiles}/.zsh/custom/plugins/ve/" "${ZSH_CUSTOM}/plugins/ve"
     git clone https://github.com/zdharma/fast-syntax-highlighting.git "${ZSH_CUSTOM}/plugins/fast-syntax-highlighting" > /dev/null
 }
