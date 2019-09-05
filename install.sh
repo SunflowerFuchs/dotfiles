@@ -35,7 +35,7 @@ getMicro() {
         chmod u+x /tmp/install.sh
         /tmp/install.sh > /dev/null 2>&1
         rm /tmp/install.sh
-        sudo mv micro /usr/local/bin/micro
+        sudo mv micro/micro /usr/local/bin/micro
     fi
 
     if [[ ! -x "$(command -v xsel)" ]]; then
@@ -76,10 +76,12 @@ getZsh() {
     ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom"
 
     # installing the theme
-    git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" > /dev/null
-    ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
+    mkdir "${ZSH_CUSTOM}/themes/"
+    git clone https://github.com/denysdovhan/spaceship-prompt.git "${ZSH_CUSTOM}/themes/spaceship-prompt" > /dev/null
+    ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "${ZSH_CUSTOM}/themes/spaceship.zsh-theme"
 
     # adding plugins
+    mkdir "${ZSH_CUSTOM}/plugins/"
     ln -s "${dotfiles}/.zsh/custom/plugins/ve/" "${ZSH_CUSTOM}/plugins/ve"
     git clone https://github.com/zdharma/fast-syntax-highlighting.git "${ZSH_CUSTOM}/plugins/fast-syntax-highlighting" > /dev/null
 }
