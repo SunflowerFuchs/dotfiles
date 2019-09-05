@@ -61,8 +61,7 @@ getZsh() {
     if [[ ! -x "$(command -v zsh)" ]]; then
         echo "Installing zsh..."
         new=true
-        sudo apt install --yes zsh #> /dev/null 2>&1
-        echo "Setting zsh as default shell for ${USER}"
+        sudo apt install --yes zsh > /dev/null 2>&1
         sudo chsh -s "$(command -v zsh)" "${USER}"
     fi
 
@@ -72,8 +71,8 @@ getZsh() {
         chmod u+x /tmp/install.sh
         /tmp/install.sh --unattended > /dev/null
         rm /tmp/install.sh
-        echo 'export ZDOTDIR="${HOME}/.zsh"' >> "${HOME}/.zshrc"
-        echo 'source "${ZDOTDIR}/.zshrc"' >> "${HOME}/.zshrc"
+        echo 'export ZDOTDIR="${HOME}/.zsh"' > "${HOME}/.zshenv"
+        echo '. "${ZDOTDIR}/.zshrc"' >> "${HOME}/.zshenv"
     fi
 
     ln -s "${dotfiles}/.zsh/" "${HOME}/.zsh"
