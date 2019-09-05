@@ -19,14 +19,20 @@ function unzip {
     [[ $# -lt 1 ]] && echo "" && return
 
     for f in $@; do
-        name=$(echo $@ | sed 's/.zip$//')
+        # check if the file ends in .zip, and if not, copy it and add _extracted.zip
+        renamed=false
+        if [ "${f}" = "${f%.zip}" ]; then
+            cp "${f}" "${f}_extracted.zip"
+            f="${f}_extracted.zip"
+            renamed=true
+        fi
 
         list=$(/usr/bin/zipinfo -1 $1)
 
         # check if file contains single file, then we can just unzip as is
         filecount=$(echo "${list}" | wc -l)
         if [[ ${filecount} -eq 1 ]]; then
-            /usr/bin/unzip "${name}.zip"
+            /usr/bin/unzip "${f}"
             continue
         fi
 
@@ -34,12 +40,17 @@ function unzip {
         folder=$(echo "${list}" | head -1)
         notInFolder=$(echo "${list}" | grep -ve "^${folder}" | wc -l)
         if [[ ${notInFolder} -eq 0 ]]; then
-            /usr/bin/unzip "${name}.zip"
+            /usr/bin/unzip "${f}"
             continue
         fi
 
         # in any other case we unzip into a subfolder
-        /usr/bin/unzip "${name}.zip" -d "$name"
+        # pattern matching to remove .zip at the end
+        /usr/bin/unzip "${f}" -d "${f%.zip}"
+
+        if $renamed; then
+            rm ${f}
+        fi
     done
 }
 
