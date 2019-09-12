@@ -22,7 +22,6 @@ alias p="progress"
 alias clear="clear; tmux clear-history"
 alias coverage="phpunit --coverage-html /var/www/coverage/"
 alias t="task"
-alias docker="sudo docker"
 
 # setting default options
 alias grep="grep --text --color --ignore-case"
