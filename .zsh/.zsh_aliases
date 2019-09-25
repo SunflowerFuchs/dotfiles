@@ -13,17 +13,17 @@ alias df="df -h -x supermount"
 alias du="du -h"
 
 # shortcuts
-alias pwgen="pwgen -cCBnsyv 16 64"
+alias genpw="pwgen -cCBnsyv 16 64"
 alias nocomment="grep -Ev '^(#|;|$|(//)|(--))'"
 alias ducks="du -cksh * | sort -rh | head -11"
 alias pcp="rsync -avzh --progress"
-alias progress="progress -M"
 alias p="progress"
 alias clear="clear; tmux clear-history"
 alias coverage="phpunit --coverage-html /var/www/coverage/"
 alias t="task"
 
 # setting default options
+alias progress="progress -M"
 alias grep="grep --text --color --ignore-case"
 alias pstree="pstree -s -p -a -G"
 alias pgrep="pgrep -fa"
