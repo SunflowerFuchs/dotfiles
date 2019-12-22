@@ -9,6 +9,19 @@ dotfiles="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 USER="${USER:-$(whoami)}"
 HOME="${HOME:-~$USER}"
 
+setupDirs() {
+    LOCAL="${HOME}/.local/"
+    newLocal=false
+    if [[ ! -d "${LOCAL}" ]]; then
+        newLocal=true
+        mkdir "${LOCAL}"
+    fi
+
+    if $newLocal || [[ ! -d "${LOCAL}/bin/" ]]; then
+        mkdir "${LOCAL}/bin/"
+    fi
+}
+
 getCurl() {
     if [[ ! -x "$(command -v curl)" ]]; then
         echo "Installing curl..."
@@ -56,6 +69,7 @@ getMicro() {
 
 getZsh() {
     getCurl
+    setupDirs
 
     new=false
     if [[ ! -x "$(command -v zsh)" ]]; then
@@ -78,16 +92,27 @@ getZsh() {
     ln -s "${dotfiles}/.zsh/" "${HOME}/.zsh"
     rm "${HOME}/.zshrc"
     ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom"
+    ZDOTDIR="${HOME}/.zsh/"
 
     # installing the theme
     mkdir -p "${ZSH_CUSTOM}/themes/"
     git clone https://github.com/denysdovhan/spaceship-prompt.git "${ZSH_CUSTOM}/themes/spaceship-prompt" > /dev/null
-    ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "${ZSH_CUSTOM}/themes/spaceship.zsh-theme"
+    ln -s "${ZSH_CUSTOM}/themes/spaceship-prompt/spaceship.zsh-theme" "${ZSH_CUSTOM}/themes/spaceship.zsh-theme"
 
     # adding plugins
     mkdir -p "${ZSH_CUSTOM}/plugins/"
     ln -s "${dotfiles}/.zsh/custom/plugins/ve/" "${ZSH_CUSTOM}/plugins/ve"
     git clone https://github.com/zdharma/fast-syntax-highlighting.git "${ZSH_CUSTOM}/plugins/fast-syntax-highlighting" > /dev/null
+
+
+    if $new || [[ ! -x "$(command -v fzf)" ]]; then
+        echo "Installing fzf..."
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf > /dev/null
+        ~/.fzf/install --no-update-rc --key-binding --completion --no-bash --no-fish > /dev/null
+        mv "${HOME}/.fzf.zsh" "${ZDOTDIR}/"
+        mv "${HOME}/.fzf/bin/fzf" "${HOME}/.local/bin"
+        mv "${HOME}/.fzf/bin/fzf-tmux" "${HOME}/.local/bin"
+    fi
 }
 
 main() {
