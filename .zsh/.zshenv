@@ -36,14 +36,18 @@ if [ -x "$(command -v mkcert)" ]; then
 fi
 
 # tmux vars
-if [ -x "$(command -v Xorg)" ]; then
+if [[ "$(tset -q)" =~ 'xterm' ]] || [ ! -z $DISPLAY ]; then
     # in graphical environments
-    [ -z "$ZSH_TMUX_AUTOSTART" ] && export ZSH_TMUX_AUTOSTART=true
-    [ -z "$ZSH_TMUX_AUTOCONNECT" ] && export ZSH_TMUX_AUTOCONNECT=false
+    export ZSH_TMUX_AUTOSTART=true
+    export ZSH_TMUX_AUTOCONNECT=false
 else
     # in terminal-only environments
-    [ -z "$ZSH_TMUX_AUTOSTART" ] && export ZSH_TMUX_AUTOSTART=true
-    [ -z "$ZSH_TMUX_AUTOCONNECT" ] && export ZSH_TMUX_AUTOCONNECT=true
+    export ZSH_TMUX_AUTOSTART=true
+    export ZSH_TMUX_AUTOCONNECT=true
+fi
+
+if [ ! -z "$FORCE_TMUX" ]; then
+    export ZSH_TMUX_AUTOSTART=$FORCE_TMUX
 fi
 
 # prevent ZSH from eating the space before pipe or ampersand characters

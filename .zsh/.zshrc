@@ -18,6 +18,7 @@ plugins=(
     fast-syntax-highlighting
     ve
     colorize
+    zsh-completions
 )
 
 # ZSH theme
