@@ -103,12 +103,13 @@ getZsh() {
     mkdir -p "${ZSH_CUSTOM}/plugins/"
     ln -s "${dotfiles}/.zsh/custom/plugins/ve/" "${ZSH_CUSTOM}/plugins/ve"
     git clone https://github.com/zdharma/fast-syntax-highlighting.git "${ZSH_CUSTOM}/plugins/fast-syntax-highlighting" > /dev/null
+    git clone https://github.com/zsh-users/zsh-completions "${ZSH_CUSTOM}/plugins/zsh-completions" > /dev/null
 
 
     if $new || [[ ! -x "$(command -v fzf)" ]]; then
         echo "Installing fzf..."
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf > /dev/null
-        ~/.fzf/install --no-update-rc --key-binding --completion --no-bash --no-fish > /dev/null
+        "${HOME}/.fzf/install" --no-update-rc --key-bindings --completion --no-bash --no-fish > /dev/null
         mv "${HOME}/.fzf.zsh" "${ZDOTDIR}/"
         mv "${HOME}/.fzf/bin/fzf" "${HOME}/.local/bin"
         mv "${HOME}/.fzf/bin/fzf-tmux" "${HOME}/.local/bin"
