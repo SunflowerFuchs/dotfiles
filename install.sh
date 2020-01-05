@@ -86,7 +86,7 @@ getZsh() {
         /tmp/install.sh --unattended > /dev/null
         rm /tmp/install.sh
         echo 'export ZDOTDIR="${HOME}/.zsh"' > "${HOME}/.zshenv"
-        echo '. "${ZDOTDIR}/.zshrc"' >> "${HOME}/.zshenv"
+        echo '. "${ZDOTDIR}/.zshenv"' >> "${HOME}/.zshenv"
     fi
 
     ln -s "${dotfiles}/.zsh/" "${HOME}/.zsh"
