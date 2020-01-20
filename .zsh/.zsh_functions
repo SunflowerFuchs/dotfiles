@@ -66,7 +66,22 @@ function gr {
 
 # call mkcert with each domain name set in nginx/sites-enabled/
 function mkcert-quick {
-    mkcert -cert-file ~/Documents/certificates/local/my.dev.lamapoll.pem -key-file ~/Documents/certificates/local/my.dev.lamapoll-key.pem $(grep 'server_name' --dereference-recursive --no-filename /etc/nginx/sites-enabled/ | ag 'server_name( [a-zA-Z0-9.]+)+' | ag --invert-match '^\s*#' | perl -0p -e 's/(?:server_name )(.+)(?:;)/$1/g' | tr ' ' '\n' | tr -d '\t ' | awk '{print $0"\nlocalhost"}' | sort | uniq | ag '^[A-Za-z0-9\.]+$' | tr '\n' ' ')
+    mkcert \
+        -cert-file ~/Documents/certificates/local/my.dev.lamapoll.pem \
+        -key-file ~/Documents/certificates/local/my.dev.lamapoll-key.pem \
+        $(\
+              grep 'server_name' --dereference-recursive --no-filename /etc/nginx/sites-enabled/ \
+            | ag 'server_name( [a-zA-Z0-9.]+)+' \
+            | ag --invert-match '^\s*#' \
+            | perl -0p -e 's/(?:server_name )(.+)(?:;)/$1/g' \
+            | tr ' ' '\n' \
+            | tr -d '\t ' \
+            | awk '{print $0"\nlocalhost"}' \
+            | sort \
+            | uniq \
+            | ag '^[A-Za-z0-9\.]+$' \
+            | tr '\n' ' '\
+        )
 }
 
 # show the weather
@@ -75,9 +90,6 @@ function wttr {
     [ "$COLUMNS" -lt 125 ] && request+='?n'
     curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
 }
-
-# print a random assortment of / and \ forever
-function wallpaper { while true; do printf "\u$((2571 + ($RANDOM & 1)))"; done }
 
 if [[ -n $(ls -A $ZDOTDIR/.zsh_functions.d/ 2>/dev/null) ]];then
     for f in $ZDOTDIR/.zsh_functions.d/*; do
