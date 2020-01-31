@@ -20,7 +20,8 @@ alias pcp="rsync -avzh --progress"
 alias p="progress"
 alias clear="clear; tmux clear-history"
 alias coverage="phpunit --coverage-html /var/www/coverage/"
-alias t="task"
+alias whide="xprop -f _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS '0x2, 0x0, 0x0, 0x0, 0x0'"
+alias wshow="xprop -f _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS '0x2, 0x0, 0x1, 0x0, 0x0'"
 
 # setting default options
 alias progress="progress -M"
