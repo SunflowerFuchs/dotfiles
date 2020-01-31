@@ -82,6 +82,14 @@ function mkcert-quick {
             | ag '^[A-Za-z0-9\.]+$' \
             | tr '\n' ' '\
         )
+
+    # additionally, create a PKCS12 certificate file
+    openssl pkcs12 \
+        -export \
+        -in ~/Documents/certificates/local/my.dev.lamapoll.pem \
+        -out ~/Documents/certificates/local/my.dev.lamapoll.p12 \
+        -inkey my.dev.lamapoll-key.pem \
+        -passout pass:adminisfrator
 }
 
 # show the weather
