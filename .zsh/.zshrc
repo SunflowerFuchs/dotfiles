@@ -58,6 +58,11 @@ unsetopt BANGHIST                # Don't use ! as history shortcuts
 # load prompt config
 [[ -f $ZDOTDIR/.spaceship-settings ]] && source "$ZDOTDIR/.spaceship-settings"
 
+# config for fast-syntax-highlighting
+export FAST_THEME_NAME=custom
+export FAST_HIGHLIGHT[chroma-hub]=:chroma/main-chroma.ch%git
+export FAST_HIGHLIGHT[git-cmsg-len]=120
+
 # fzf completion and keybinds
 [ -f $ZDOTDIR/.fzf.zsh ] && source $ZDOTDIR/.fzf.zsh
 
