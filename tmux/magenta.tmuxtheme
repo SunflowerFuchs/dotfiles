@@ -10,69 +10,59 @@
 #
 
 # Status update interval
-set -g status-interval 1
+set-option -g status-interval 1
 
 # Basic status bar colors
-set -g status-fg colour240
-set -g status-bg colour233
+set-option -g status-style fg=colour240,bg=colour233
 
 # Left side of status bar
-set -g status-left-bg colour233
-set -g status-left-fg colour243
-set -g status-left-length 40
-set -g status-left "#[fg=colour233,bg=colour125,bold] #S #[fg=colour125,bg=colour235]#[fg=colour240,bg=colour235] #I:#P #[fg=colour235,bg=colour233,nobold]"
+set-option -g status-left-style fg=colour243,bg=colour233
+set-option -g status-left-length 40
+set-option -g status-left "#[fg=colour233,bg=colour125,bold] #S #[fg=colour125,bg=colour235]#[fg=colour240,bg=colour235] #I:#P #[fg=colour235,bg=colour233,nobold]"
 
 # Right side of status bar
-set -g status-right-bg colour233
-set -g status-right-fg colour243
-set -g status-right-length 150
-set -g status-right \
+set-option -g status-right-style fg=colour243,bg=colour233
+set-option -g status-right-length 150
+set-option -g status-right \
 "#[fg=colour235,bg=colour233]#[fg=colour240,bg=colour235] #H "\
 "#[fg=colour125,bg=colour235]#[fg=colour233,bg=colour125] %d-%b-%y "\
 "#[fg=colour28,bg=colour125]#[fg=colour226,bg=colour28,bold] #(upower -i $(upower -e | grep bat) | grep 'percentage' | grep -Eo '[0-9]+%') "
 
 # Window status
-set -g window-status-format '  #I: #W@#(echo "#{pane_current_path}" | sed 's@$HOME@~@' | rev | cut -d'/' -f-1 | rev)  '
-set -g window-status-current-format '#[fg=colour233,bg=black]#[fg=colour129,nobold] #I: #[fg=colour40,nobold]#W#[fg=colour3,nobold]@#[fg=colour12,nobold]#(echo "#{pane_current_path}" | sed 's@$HOME@~@' | rev | cut -d'/' -f-1 | rev) #[fg=colour233,bg=black,nobold]'
+set-option -g window-status-format '  #I: #W@#(echo "#{pane_current_path}" | sed 's@$HOME@~@' | rev | cut -d'/' -f-1 | rev)  '
+set-option -g window-status-current-format '#[fg=colour233,bg=black]#[fg=colour129,nobold] #I: #[fg=colour40,nobold]#W#[fg=colour3,nobold]@#[fg=colour12,nobold]#(echo "#{pane_current_path}" | sed 's@$HOME@~@' | rev | cut -d'/' -f-1 | rev) #[fg=colour233,bg=black,nobold]'
 
 # Current window status
-set -g window-status-current-bg colour125
-set -g window-status-current-fg colour235
+set-option -g window-status-current-style fg=colour235,bg=colour125
 
 # Window with activity status
-set -g window-status-activity-bg colour245 # fg and bg are flipped here due to
-set -g window-status-activity-fg colour233 # a bug in tmux
+set-option -g window-status-activity-style fg=colour233,bg=colour245
 
 # Window separator
-set -g window-status-separator ""
+set-option -g window-status-separator ""
 
 # Window status alignment
-set -g status-justify centre
+set-option -g status-justify centre
 
 # Pane border
-set -g pane-border-bg default
-set -g pane-border-fg colour238
+set-option -g pane-border-style fg=colour238,bg=default
 
 # Active pane border
-set -g pane-active-border-bg default
-set -g pane-active-border-fg colour125
+set-option -g pane-active-border-style fg=colour125,bg=default
 
 # Pane number indicator
-set -g display-panes-colour colour233
-set -g display-panes-active-colour colour245
+set-option -g display-panes-colour colour233
+set-option -g display-panes-active-colour colour245
 
 # Clock mode
-set -g clock-mode-colour colour125
-set -g clock-mode-style 24
+set-option -g clock-mode-colour colour125
+set-option -g clock-mode-style 24
 
 # Message
-set -g message-bg colour125
-set -g message-fg black
+set-option -g message-style fg=black,bg=colour125
 
 # Command message
-set -g message-command-bg colour233
-set -g message-command-fg black
+set-option -g message-command-style fg=black,bg=colour233
 
 # Mode
-set -g mode-bg colour125
-set -g mode-fg colour231
+set-option -g mode-style fg=colour231,bg=colour125
