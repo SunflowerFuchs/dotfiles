@@ -35,10 +35,9 @@ getTmux() {
         sudo apt install --yes tmux > /dev/null 2>&1
     fi
 
-    mkdir -p "${HOME}/.config/tmux-themepack/powerline/custom/"
-    ln -s "${dotfiles}/tmux/magenta.tmuxtheme" "${HOME}/.config/tmux-themepack/powerline/custom/magenta.tmuxtheme"
+    mkdir -p "${HOME}/.config/tmux-themes/"
+    ln -s "${dotfiles}/tmux/magenta.tmuxtheme" "${HOME}/.config/tmux-themes/magenta.tmuxtheme"
     ln -s "${dotfiles}/tmux/.tmux.conf" "${HOME}/.tmux.conf"
-    #ln -s "${dotfiles}/tmux/.tmuxinator.conf" "${HOME}/.tmuxinator.conf"
 }
 
 getMicro() {
