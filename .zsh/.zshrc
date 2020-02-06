@@ -59,7 +59,9 @@ unsetopt BANGHIST                # Don't use ! as history shortcuts
 [[ -f $ZDOTDIR/.spaceship-settings ]] && source "$ZDOTDIR/.spaceship-settings"
 
 # config for fast-syntax-highlighting
-export FAST_THEME_NAME=custom
+if [[ -z $FAST_THEME_NAME ]] || [[ $FAST_THEME_NAME != "custom" ]]; then
+    fast-theme -q custom
+fi
 export FAST_HIGHLIGHT[chroma-hub]=:chroma/main-chroma.ch%git
 export FAST_HIGHLIGHT[git-cmsg-len]=120
 
