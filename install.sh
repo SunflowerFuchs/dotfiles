@@ -1,13 +1,29 @@
 #!/usr/bin/env bash
 
-# run updates
-echo "Running updates..."
-sudo apt update > /dev/null 2>&1
-sudo apt upgrade --yes > /dev/null 2>&1
+preInstall() {
+    # make sure all important variables are filled
+    dotfiles="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+    USER="${USER:-$(whoami)}"
+    HOME="${HOME:-~$USER}"
+    SUDO="sudo"
 
-dotfiles="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-USER="${USER:-$(whoami)}"
-HOME="${HOME:-~$USER}"
+    # if this script gets run as root, get the original user
+    if [[ $(id -ur) -eq 0 ]] && [[ ! -z ${SUDO_USER} ]]; then
+        USER="${SUDO_USER}"
+        # check that the user exists before we eval
+        if ! getent passwd ${USER} > /dev/null 2>&1; then
+            exit 1
+        fi
+        HOME=$(eval echo "~${USER}")
+        SUDO=""
+    fi
+}
+
+runUpdates() {
+    echo "Running updates..."
+    ${SUDO} apt update > /dev/null 2>&1
+    ${SUDO} apt upgrade --yes > /dev/null 2>&1
+}
 
 setupDirs() {
     LOCAL="${HOME}/.local/"
@@ -25,14 +41,14 @@ setupDirs() {
 getCurl() {
     if [[ ! -x "$(command -v curl)" ]]; then
         echo "Installing curl..."
-        sudo apt install --yes curl > /dev/null 2>&1
+        ${SUDO} apt install --yes curl > /dev/null 2>&1
     fi
 }
 
 getTmux() {
     if [[ ! -x "$(command -v tmux)" ]]; then
         echo "Installing tmux..."
-        sudo apt install --yes tmux > /dev/null 2>&1
+        ${SUDO} apt install --yes tmux > /dev/null 2>&1
     fi
 
     mkdir -p "${HOME}/.config/tmux-themes/"
@@ -51,13 +67,13 @@ getMicro() {
         chmod u+x /tmp/install.sh
         /tmp/install.sh > /dev/null 2>&1
         rm /tmp/install.sh
-        sudo mv /tmp/micro /usr/local/bin/micro
+        ${SUDO} mv /tmp/micro /usr/local/bin/micro
         cd "${dotfiles}"
     fi
 
     if [[ ! -x "$(command -v xsel)" ]]; then
         echo "Installing xsel for micro..."
-        sudo apt install --yes xsel > /dev/null 2>&1
+        ${SUDO} apt install --yes xsel > /dev/null 2>&1
     fi
 
     if [[ ! -d "${HOME}/.config/micro/" ]]; then
@@ -74,8 +90,8 @@ getZsh() {
     if [[ ! -x "$(command -v zsh)" ]]; then
         echo "Installing zsh..."
         new=true
-        sudo apt install --yes zsh > /dev/null 2>&1
-        sudo chsh -s "$(command -v zsh)" "${USER}"
+        ${SUDO} apt install --yes zsh > /dev/null 2>&1
+        ${SUDO} chsh -s "$(command -v zsh)" "${USER}"
     fi
 
     if $new || [[ ! -d "${HOME}/.oh-my-zsh/" ]]; then
@@ -116,6 +132,8 @@ getZsh() {
 }
 
 main() {
+    preInstall
+    runUpdates
     getTmux
     getMicro
     getZsh
