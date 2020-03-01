@@ -33,7 +33,7 @@
     "scrollbar": true,
     "scrollmargin": 4,
     "scrollspeed": 1,
-    "softwrap": false,
+    "softwrap": true,
     "splitbottom": true,
     "splitright": true,
     "statusline": true,
