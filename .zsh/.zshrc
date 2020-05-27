@@ -13,12 +13,14 @@ plugins=(
     sudo
     wd
     pip
-    composer
+#    composer
     gulp
     fast-syntax-highlighting
     ve
     colorize
     zsh-completions
+    docker
+    docker-compose
 )
 
 # ZSH theme
@@ -29,8 +31,8 @@ source $ZSH/oh-my-zsh.sh
 
 # set HISTFILE
 export HISTFILE="$ZDOTDIR/.zsh_history"
-export HISTSIZE=50000
-export SAVEHIST=50000
+export HISTSIZE=5000000
+export SAVEHIST=5000000
 
 # User configuration
 [[ -f $ZDOTDIR/.zsh_aliases ]] && source $ZDOTDIR/.zsh_aliases
