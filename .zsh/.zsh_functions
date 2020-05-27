@@ -71,7 +71,7 @@ function mkcert-quick {
         -key-file ~/Documents/certificates/local/my.dev.lamapoll-key.pem \
         $(\
               grep 'server_name' --dereference-recursive --no-filename /etc/nginx/sites-enabled/ \
-            | ag 'server_name( [a-zA-Z0-9.]+)+' \
+            | ag 'server_name( [a-zA-Z0-9\.\*]+)+' \
             | ag --invert-match '^\s*#' \
             | perl -0p -e 's/(?:server_name )(.+)(?:;)/$1/g' \
             | tr ' ' '\n' \
@@ -79,7 +79,7 @@ function mkcert-quick {
             | awk '{print $0"\nlocalhost"}' \
             | sort \
             | uniq \
-            | ag '^[A-Za-z0-9\.]+$' \
+            | ag '^[A-Za-z0-9\.\*]+$' \
             | tr '\n' ' '\
         )
 
@@ -88,8 +88,8 @@ function mkcert-quick {
         -export \
         -in ~/Documents/certificates/local/my.dev.lamapoll.pem \
         -out ~/Documents/certificates/local/my.dev.lamapoll.p12 \
-        -inkey my.dev.lamapoll-key.pem \
-        -passout pass:adminisfrator
+        -inkey ~/Documents/certificates/local/my.dev.lamapoll-key.pem \
+        -passout pass:Passw0rd!
 }
 
 # show the weather
