@@ -99,6 +99,7 @@ function wttr {
     curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
 }
 
+# load additional function files
 if [[ -n $(ls -A $ZDOTDIR/.zsh_functions.d/ 2>/dev/null) ]];then
     for f in $ZDOTDIR/.zsh_functions.d/*; do
         source "$f"
