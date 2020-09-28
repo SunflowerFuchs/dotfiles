@@ -26,6 +26,9 @@ plugins=(
 # ZSH theme
 ZSH_THEME="spaceship"
 
+# enable autoupdate
+DISABLE_UPDATE_PROMPT=true
+
 # load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
