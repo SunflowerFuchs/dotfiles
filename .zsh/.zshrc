@@ -21,6 +21,7 @@ plugins=(
     zsh-completions
     docker
     docker-compose
+    docker-machine
 )
 
 # ZSH theme
