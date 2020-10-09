@@ -88,6 +88,10 @@ fi
 # Kubectl completion
 if [ -x "$(command -v kubectl)" ]; then
     source <(kubectl completion zsh)
+
+    if [ -x "$(command -v minikube)" ]; then
+        source <(minikube completion zsh)
+    fi
 fi
 
 # show terminal startup messages
