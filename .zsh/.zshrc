@@ -82,7 +82,12 @@ autoload -U compinit && compinit
 
 # Gulp completion
 if [ -x "$(command -v gulp)" ]; then
-    eval "$(gulp --completion=zsh)"
+    source <(gulp --completion=zsh)
+fi
+
+# Kubectl completion
+if [ -x "$(command -v kubectl)" ]; then
+    source <(kubectl completion zsh)
 fi
 
 # show terminal startup messages
