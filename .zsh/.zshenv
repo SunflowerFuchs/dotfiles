@@ -36,7 +36,7 @@ if [ -x "$(command -v mkcert)" ]; then
 fi
 
 # tmux vars
-if [[ "$(tset -q)" =~ 'xterm' ]] || [ ! -z $DISPLAY ]; then
+if [ ! -z $DISPLAY ]; then
     # in graphical environments
     export ZSH_TMUX_AUTOSTART=true
     export ZSH_TMUX_AUTOCONNECT=false
