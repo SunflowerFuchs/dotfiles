@@ -22,6 +22,7 @@ plugins=(
     docker
     docker-compose
     docker-machine
+    k8
 )
 
 # ZSH theme
@@ -77,21 +78,9 @@ export FAST_HIGHLIGHT[git-cmsg-len]=120
 # tmuxinator completion
 [ -f $HOME/.config/tmuxinator.zsh ] && source $HOME/.config/tmuxinator.zsh
 
-# reload completions
-autoload -U compinit && compinit
-
 # Gulp completion
 if [ -x "$(command -v gulp)" ]; then
     source <(gulp --completion=zsh)
-fi
-
-# Kubectl completion
-if [ -x "$(command -v kubectl)" ]; then
-    source <(kubectl completion zsh)
-
-    if [ -x "$(command -v minikube)" ]; then
-        source <(minikube completion zsh)
-    fi
 fi
 
 # show terminal startup messages
