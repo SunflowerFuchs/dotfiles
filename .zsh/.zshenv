@@ -56,13 +56,6 @@ export ZLE_REMOVE_SUFFIX_CHARS=""
 # enable truecolor in micro
 export MICRO_TRUECOLOR=1
 
-# export some color variables
-export RED=$(tput setaf 1)
-export BLUE=$(tput setaf 4)
-export GREEN=$(tput setaf 2)
-export YELLOW=$(tput setaf 3)
-export NC=$(tput sgr0) # No Color
-
 if [[ -n $(ls -A $ZDOTDIR/.zshenv.d/ 2>/dev/null) ]]; then
     for f in $ZDOTDIR/.zshenv.d/*; do
         source "$f"
