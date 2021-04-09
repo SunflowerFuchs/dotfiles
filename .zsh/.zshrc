@@ -19,6 +19,7 @@ plugins=(
     ve
     colorize
     zsh-completions
+    nix-zsh-completions
     docker
     docker-compose
     docker-machine

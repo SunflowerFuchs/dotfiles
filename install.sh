@@ -120,6 +120,7 @@ getZsh() {
     ln -s "${dotfiles}/.zsh/custom/plugins/k8/" "${ZSH_CUSTOM}/plugins/k8"
     ln -s "${dotfiles}/.zsh/custom/plugins/docker-machine/" "${ZSH_CUSTOM}/plugins/docker-machine"
     git clone https://github.com/zsh-users/zsh-completions "${ZSH_CUSTOM}/plugins/zsh-completions" > /dev/null
+    git clone https://github.com/spwhitt/nix-zsh-completions.git "${ZSH_CUSTOM}/plugins/nix-zsh-completions" > /dev/null
     git clone https://github.com/zdharma/fast-syntax-highlighting.git "${ZSH_CUSTOM}/plugins/fast-syntax-highlighting" > /dev/null
     cp "${dotfiles}/.zsh/custom/fast-syntax-highlighting.theme" "${ZSH_CUSTOM}/plugins/fast-syntax-highlighting/themes/custom.ini"
 
