@@ -27,13 +27,11 @@ runUpdates() {
 
 setupDirs() {
     LOCAL="${HOME}/.local/"
-    newLocal=false
     if [[ ! -d "${LOCAL}" ]]; then
-        newLocal=true
         mkdir "${LOCAL}"
     fi
 
-    if $newLocal || [[ ! -d "${LOCAL}/bin/" ]]; then
+    if [[ ! -d "${LOCAL}/bin/" ]]; then
         mkdir "${LOCAL}/bin/"
     fi
 }
@@ -52,8 +50,8 @@ getTmux() {
     fi
 
     mkdir -p "${HOME}/.config/tmux-themes/"
-    ln -s "${dotfiles}/tmux/magenta.tmuxtheme" "${HOME}/.config/tmux-themes/magenta.tmuxtheme"
-    ln -s "${dotfiles}/tmux/.tmux.conf" "${HOME}/.tmux.conf"
+    [[ ! -e "${HOME}/.config/tmux-themes/magenta.tmuxtheme" ]] && ln -s "${dotfiles}/tmux/magenta.tmuxtheme" "${HOME}/.config/tmux-themes/magenta.tmuxtheme"
+    [[ ! -e "${HOME}/.tmux.conf" ]] && ln -s "${dotfiles}/tmux/.tmux.conf" "${HOME}/.tmux.conf"
 }
 
 getMicro() {
@@ -86,15 +84,13 @@ getZsh() {
     getCurl
     setupDirs
 
-    new=false
     if [[ ! -x "$(command -v zsh)" ]]; then
         echo "Installing zsh..."
-        new=true
         ${SUDO} apt install --yes zsh > /dev/null 2>&1
         ${SUDO} chsh -s "$(command -v zsh)" "${USER}"
     fi
 
-    if $new || [[ ! -d "${HOME}/.oh-my-zsh/" ]]; then
+    if [[ ! -d "${HOME}/.oh-my-zsh/" ]]; then
         echo "Installing oh-my-zsh..."
         curl -fsSLo /tmp/install.sh "https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh" > /dev/null
         chmod u+x /tmp/install.sh
@@ -104,27 +100,50 @@ getZsh() {
         echo '. "${ZDOTDIR}/.zshenv"' >> "${HOME}/.zshenv"
     fi
 
-    ln -s "${dotfiles}/.zsh/" "${HOME}/.zsh"
-    rm "${HOME}/.zshrc"
+    if [[ ! -e "${HOME}/.zsh" ]]; then
+        ln -s "${dotfiles}/.zsh/" "${HOME}/.zsh"
+    fi
+
+    [[ -e "${HOME}/.zshrc" ]] && rm "${HOME}/.zshrc"
+
     ZSH_CUSTOM="${HOME}/.oh-my-zsh/custom"
     ZDOTDIR="${HOME}/.zsh/"
 
     # installing the theme
     mkdir -p "${ZSH_CUSTOM}/themes/"
-    git clone https://github.com/denysdovhan/spaceship-prompt.git "${ZSH_CUSTOM}/themes/spaceship-prompt" > /dev/null
-    ln -s "${ZSH_CUSTOM}/themes/spaceship-prompt/spaceship.zsh-theme" "${ZSH_CUSTOM}/themes/spaceship.zsh-theme"
+    if [[ ! -d "${ZSH_CUSTOM}/themes/spaceship-prompt" ]]; then
+        git clone https://github.com/denysdovhan/spaceship-prompt.git "${ZSH_CUSTOM}/themes/spaceship-prompt" > /dev/null
+        ln -s "${ZSH_CUSTOM}/themes/spaceship-prompt/spaceship.zsh-theme" "${ZSH_CUSTOM}/themes/spaceship.zsh-theme"
+    fi
 
     # adding plugins
     mkdir -p "${ZSH_CUSTOM}/plugins/"
-    ln -s "${dotfiles}/.zsh/custom/plugins/ve/" "${ZSH_CUSTOM}/plugins/ve"
-    ln -s "${dotfiles}/.zsh/custom/plugins/k8/" "${ZSH_CUSTOM}/plugins/k8"
-    ln -s "${dotfiles}/.zsh/custom/plugins/docker-machine/" "${ZSH_CUSTOM}/plugins/docker-machine"
-    git clone https://github.com/zsh-users/zsh-completions "${ZSH_CUSTOM}/plugins/zsh-completions" > /dev/null
-    git clone https://github.com/spwhitt/nix-zsh-completions.git "${ZSH_CUSTOM}/plugins/nix-zsh-completions" > /dev/null
-    git clone https://github.com/zdharma/fast-syntax-highlighting.git "${ZSH_CUSTOM}/plugins/fast-syntax-highlighting" > /dev/null
-    cp "${dotfiles}/.zsh/custom/fast-syntax-highlighting.theme" "${ZSH_CUSTOM}/plugins/fast-syntax-highlighting/themes/custom.ini"
+    if [[ ! -d "${ZSH_CUSTOM}/plugins/zsh-completions" ]]; then
+        git clone https://github.com/zsh-users/zsh-completions "${ZSH_CUSTOM}/plugins/zsh-completions" > /dev/null
+    fi
 
-    if $new || [[ ! -x "$(command -v fzf)" ]]; then
+    if [[ ! -d "${ZSH_CUSTOM}/plugins/ve" ]] && [[ -x "$(command -v virtualenv)" ]]; then
+        ln -s "${dotfiles}/.zsh/custom/plugins/ve/" "${ZSH_CUSTOM}/plugins/ve"
+    fi
+
+    if [[ ! -d "${ZSH_CUSTOM}/plugins/k8" ]] && [ -x "$(command -v minikube)" -o -x "$(command -v kubectl)" -o -x "$(command -v kubeadm)" ]; then
+        ln -s "${dotfiles}/.zsh/custom/plugins/k8/" "${ZSH_CUSTOM}/plugins/k8"
+    fi
+
+    if [[ ! -d "${ZSH_CUSTOM}/plugins/docker-machine" ]] && [[ -x "$(command -v docker-machine)" ]]; then
+        ln -s "${dotfiles}/.zsh/custom/plugins/docker-machine/" "${ZSH_CUSTOM}/plugins/docker-machine"
+    fi
+
+    if [[ ! -d "${ZSH_CUSTOM}/plugins/fast-syntax-highlighting" ]]; then
+        git clone https://github.com/zdharma/fast-syntax-highlighting.git "${ZSH_CUSTOM}/plugins/fast-syntax-highlighting" > /dev/null
+        cp "${dotfiles}/.zsh/custom/fast-syntax-highlighting.theme" "${ZSH_CUSTOM}/plugins/fast-syntax-highlighting/themes/custom.ini"
+    fi
+
+    if [[ ! -d "${ZSH_CUSTOM}/plugins/nix-zsh-completions" ]] && [[ -d "/nix" ]]; then
+        git clone https://github.com/spwhitt/nix-zsh-completions.git "${ZSH_CUSTOM}/plugins/nix-zsh-completions" > /dev/null
+    fi
+
+    if [[ ! -x "$(command -v fzf)" ]]; then
         echo "Installing fzf..."
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf > /dev/null
         "${HOME}/.fzf/install" --no-update-rc --key-bindings --completion --no-bash --no-fish > /dev/null
