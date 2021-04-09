@@ -18,6 +18,7 @@ alias clear="clear; tmux clear-history"
 alias coverage="phpunit --coverage-html /var/www/coverage/"
 alias whide="xprop -f _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS '0x2, 0x0, 0x0, 0x0, 0x0'"
 alias wshow="xprop -f _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS '0x2, 0x0, 0x1, 0x0, 0x0'"
+alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 # setting default options
 alias progress="progress -M"
