@@ -97,14 +97,23 @@ getMicro() {
 
     if [[ ! -x "$(command -v micro)" ]]; then
         echo "Installing micro..."
-        # micro tries putting itself into the current folder, so i try to deal with ambiguity by switching to /tmp
-        cd /tmp/
-        curl -fsSLo /tmp/install.sh https://getmic.ro >/dev/null
-        chmod u+x /tmp/install.sh
-        /tmp/install.sh > /dev/null 2>&1
-        rm /tmp/install.sh
-        mv /tmp/micro "${HOME}/.local/bin/micro"
-        cd "${dotfiles}"
+        if [[ -x "$(command -v nix-env)" ]]; then
+            # luckily, nix has a pre-build micro package
+            ${INSTALL} micro > /dev/null 2>&1
+            if [ $? -ne 0 ]; then
+                echo "Something went wrong..."
+                exit 1
+            fi
+        else # apt (+others?) does not have a micro package, we have to install it manually
+            # micro tries putting itself into the current folder, so i try to deal with ambiguity by switching to /tmp
+            cd /tmp/
+            curl -fsSLo /tmp/install.sh https://getmic.ro >/dev/null
+            chmod u+x /tmp/install.sh
+            /tmp/install.sh > /dev/null 2>&1
+            rm /tmp/install.sh
+            mv /tmp/micro "${HOME}/.local/bin/micro"
+            cd "${dotfiles}"
+        fi
     fi
 
     if [[ ! -x "$(command -v xsel)" ]]; then
