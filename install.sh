@@ -17,12 +17,42 @@ preInstall() {
         HOME=$(eval echo "~${USER}")
         SUDO=""
     fi
+
+    # figure out which package manager to use
+    INSTALL=""
+    if [[ -x "$(command -v apt)" ]]; then
+        INSTALL="${SUDO} apt install --yes"
+    elif [[ -x "$(command -v apt-get)" ]]; then
+        INSTALL="${SUDO} apt-get install --yes"
+    elif [[ -x "$(command -v nix-env)" ]]; then
+        # INSTALL="nix-env -f '<nixpkgs>' -i"
+        INSTALL="nix-env -i"
+    else
+        echo "Could not find a supported package manager. Exiting..."
+        exit 1
+    fi
+
+    # make sure all directories are set up the way i expect them
+    setupDirs
 }
 
 runUpdates() {
     echo "Running updates..."
-    ${SUDO} apt update > /dev/null 2>&1
-    ${SUDO} apt upgrade --yes > /dev/null 2>&1
+    if [[ -x "$(command -v apt)" ]]; then
+        ${SUDO} apt update > /dev/null 2>&1
+        ${SUDO} apt upgrade --yes > /dev/null 2>&1
+    elif [[ -x "$(command -v apt-get)" ]]; then
+        ${SUDO} apt-get update > /dev/null 2>&1
+        ${SUDO} apt-get upgrade --yes > /dev/null 2>&1
+    elif [[ -x "$(command -v nix-env)" ]]; then
+        nix-channel --update nixos > /dev/null 2>&1
+        nix-env -i > /dev/null 2>&1
+        # not sure whether a hard update here is better or worse
+        # ${PKG} -u '*'
+    else
+        echo "Not sure how you got here, but i cannot update your packages. Sucks for you."
+        exit 1
+    fi
 }
 
 setupDirs() {
@@ -39,14 +69,22 @@ setupDirs() {
 getCurl() {
     if [[ ! -x "$(command -v curl)" ]]; then
         echo "Installing curl..."
-        ${SUDO} apt install --yes curl > /dev/null 2>&1
+        ${INSTALL} curl > /dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            echo "Something went wrong..."
+            exit 1
+        fi
     fi
 }
 
 getTmux() {
     if [[ ! -x "$(command -v tmux)" ]]; then
         echo "Installing tmux..."
-        ${SUDO} apt install --yes tmux > /dev/null 2>&1
+        ${INSTALL} tmux > /dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            echo "Something went wrong..."
+            exit 1
+        fi
     fi
 
     mkdir -p "${HOME}/.config/tmux-themes/"
@@ -65,13 +103,17 @@ getMicro() {
         chmod u+x /tmp/install.sh
         /tmp/install.sh > /dev/null 2>&1
         rm /tmp/install.sh
-        ${SUDO} mv /tmp/micro /usr/local/bin/micro
+        mv /tmp/micro "${HOME}/.local/bin/micro"
         cd "${dotfiles}"
     fi
 
     if [[ ! -x "$(command -v xsel)" ]]; then
         echo "Installing xsel for micro..."
-        ${SUDO} apt install --yes xsel > /dev/null 2>&1
+        ${INSTALL} xsel > /dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            echo "Something went wrong..."
+            exit 1
+        fi
     fi
 
     if [[ ! -d "${HOME}/.config/micro/" ]]; then
@@ -82,12 +124,22 @@ getMicro() {
 
 getZsh() {
     getCurl
-    setupDirs
 
     if [[ ! -x "$(command -v zsh)" ]]; then
         echo "Installing zsh..."
-        ${SUDO} apt install --yes zsh > /dev/null 2>&1
-        ${SUDO} chsh -s "$(command -v zsh)" "${USER}"
+        ${INSTALL} zsh > /dev/null 2>&1
+        if [ $? -ne 0 ]; then
+            echo "Something went wrong..."
+            exit 1
+        fi
+
+        if [[ -x "$(command -v chsh)" ]]; then
+            ${SUDO} chsh -s "$(command -v zsh)" "${USER}"
+        fi
+
+        if [[ ! -x "$(command -v chsh)" ]] || [[ $? -ne 0 ]]; then
+            echo "Could not change default shell. Good luck."
+        fi
     fi
 
     if [[ ! -d "${HOME}/.oh-my-zsh/" ]]; then
