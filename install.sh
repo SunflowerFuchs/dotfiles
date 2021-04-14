@@ -118,7 +118,12 @@ getMicro() {
 
     if [[ ! -x "$(command -v xsel)" ]]; then
         echo "Installing xsel for micro..."
-        ${INSTALL} xsel > /dev/null 2>&1
+
+        # on nix, the package is called xsel-unstable instead
+        PKG="xsel"
+        [[ -x "$(command -v nix-env)" ]] && PKG="xsel-unstable"
+
+        ${INSTALL} ${PKG} > /dev/null 2>&1
         if [ $? -ne 0 ]; then
             echo "Something went wrong..."
             exit 1
