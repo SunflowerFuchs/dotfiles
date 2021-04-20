@@ -27,6 +27,11 @@ preInstall() {
     elif [[ -x "$(command -v nix-env)" ]]; then
         # INSTALL="nix-env -f '<nixpkgs>' -i"
         INSTALL="nix-env -i"
+    elif [[ -x "$(command -v brew)" ]]; then
+        INSTALL="brew install"
+    elif [ "$(uname)" == "Darwin" ]; then
+        INSTALL="brew install"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     else
         echo "Could not find a supported package manager. Exiting..."
         exit 1
@@ -49,6 +54,9 @@ runUpdates() {
         nix-env -i > /dev/null 2>&1
         # not sure whether a hard update here is better or worse
         # ${PKG} -u '*'
+    elif [[ -x "$(command -v brew)" ]]; then
+        brew update > /dev/null 2>&1
+        brew upgrade > /dev/null 2>&1
     else
         echo "Not sure how you got here, but i cannot update your packages. Sucks for you."
         exit 1
@@ -116,7 +124,8 @@ getMicro() {
         fi
     fi
 
-    if [[ ! -x "$(command -v xsel)" ]]; then
+    # On mac we don't need to install xsel
+    if [ "$(uname)" != "Darwin" ] && [[ ! -x "$(command -v xsel)" ]]; then
         echo "Installing xsel for micro..."
 
         # on nix, the package is called xsel-unstable instead
