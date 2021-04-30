@@ -20,11 +20,12 @@ preInstall() {
 
     # figure out which package manager to use
     INSTALL=""
-    if [[ -x "$(command -v brew)" ]]; then
+    if [ "$(uname)" == "Darwin" ]; then
         INSTALL="brew install"
-    elif [ "$(uname)" == "Darwin" ]; then
-        INSTALL="brew install"
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        if [[ ! -x "$(command -v brew)" ]]; then
+            echo "Installing homebrew..."
+            /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        fi
     elif [[ -x "$(command -v apt)" ]]; then
         INSTALL="${SUDO} apt install --yes"
     elif [[ -x "$(command -v apt-get)" ]]; then
