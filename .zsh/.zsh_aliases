@@ -4,9 +4,9 @@
 alias sudo="sudo "
 
 # ls aliases
-alias l="ls -lah --group-directories-first"
-alias la="ls -lAh --group-directories-first"
-alias ll="ls -lh --group-directories-first"
+alias l="ls -lah"
+alias la="ls -lAh"
+alias ll="ls -lh"
 
 # shortcuts
 alias genpw="pwgen -cCBnsyv 16 64"
@@ -25,7 +25,6 @@ alias progress="progress -M"
 alias grep="grep --text --color --ignore-case"
 alias pstree="pstree -s -p -a -G"
 alias pgrep="pgrep -fa"
-alias mkdir="mkdir --parents"
 alias fzf="fzf --preview='head -100 {}'"
 alias php="XDEBUG_CONFIG='idekey=PHPSTORM' php"
 alias df="df -h"
