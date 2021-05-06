@@ -25,6 +25,7 @@ plugins=(
 [[ -x "$(command -v docker-compose)" ]] && plugins+=(docker-compose)
 [[ -x "$(command -v docker-machine)" ]] && plugins+=(docker-machine)
 [[ -x "$(command -v composer)" ]] && plugins+=(composer)
+[[ -x "$(command -v git)" ]] && plugins+=(git-auto-fetch)
 [ -x "$(command -v kubeadm)" -o -x "$(command -v minikube)" -o -x "$(command -v kubectl)" ] && plugins+=(k8)
 [[ -d "/nix" ]] && plugins+=(nix-zsh-completions)
 
@@ -84,6 +85,11 @@ export FAST_HIGHLIGHT[git-cmsg-len]=120
 # Gulp completion
 if [ -x "$(command -v gulp)" ]; then
     source <(gulp --completion=zsh)
+fi
+
+# thefuck completion
+if [ -x "$(command -v thefuck)" ]; then
+    eval $(thefuck --alias)
 fi
 
 # show terminal startup messages
