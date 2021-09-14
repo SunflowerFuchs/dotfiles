@@ -31,7 +31,6 @@ fi
 
 # Add my local cert to the NODE cert storage
 if [ -x "$(command -v mkcert)" ]; then
-    export TEMPTEST=true
     export NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.crt"
 fi
 
@@ -49,6 +48,9 @@ fi
 if [ ! -z "$FORCE_TMUX" ]; then
     export ZSH_TMUX_AUTOSTART=$FORCE_TMUX
 fi
+
+# Default value for the location param of the wttr function
+export WTTR_LOCATION='Berlin'
 
 # prevent ZSH from eating the space before pipe or ampersand characters
 export ZLE_REMOVE_SUFFIX_CHARS=""

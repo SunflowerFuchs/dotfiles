@@ -98,8 +98,8 @@ function mkcert-quick {
 
 # show the weather
 function wttr {
-    local request="wttr.in/${1-Berlin}"
-    [ "$COLUMNS" -lt 125 ] && request+='?n'
+    local request="wttr.in/${1-$WTTR_LOCATION}?${2-m}"
+    [ "$COLUMNS" -lt 125 ] && request+='&n'
     curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
 }
 
