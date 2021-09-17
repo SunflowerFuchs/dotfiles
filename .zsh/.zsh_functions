@@ -96,6 +96,21 @@ function mkcert-quick {
     sudo service nginx reload
 }
 
+# decode a jwt token
+function jwtd {
+    local input=""
+    if [ $# -ne 0 ]; then
+        input=$(echo "$*")
+    elif [ -p /dev/stdin ]; then
+        input=$(cat /dev/stdin)
+    else
+        echo "No input given" >&2
+        return 1
+    fi
+
+    jq -R 'split(".") | .[0],.[1] | @base64d | fromjson' <<< "${input}"
+}
+
 # show the weather
 function wttr {
     local request="wttr.in/${1-$WTTR_LOCATION}?${2-m}"
