@@ -31,12 +31,11 @@ fi
 
 # Add my local cert to the NODE cert storage
 if [ -x "$(command -v mkcert)" ]; then
-    export TEMPTEST=true
     export NODE_EXTRA_CA_CERTS="$(mkcert -CAROOT)/rootCA.crt"
 fi
 
 # tmux vars
-if [[ "$(tset -q)" =~ 'xterm' ]] || [ ! -z $DISPLAY ]; then
+if [ ! -z $DISPLAY ]; then
     # in graphical environments
     export ZSH_TMUX_AUTOSTART=true
     export ZSH_TMUX_AUTOCONNECT=false
@@ -50,18 +49,14 @@ if [ ! -z "$FORCE_TMUX" ]; then
     export ZSH_TMUX_AUTOSTART=$FORCE_TMUX
 fi
 
+# Default value for the location param of the wttr function
+export WTTR_LOCATION='Berlin'
+
 # prevent ZSH from eating the space before pipe or ampersand characters
 export ZLE_REMOVE_SUFFIX_CHARS=""
 
 # enable truecolor in micro
 export MICRO_TRUECOLOR=1
-
-# export some color variables
-export RED=$(tput setaf 1)
-export BLUE=$(tput setaf 4)
-export GREEN=$(tput setaf 2)
-export YELLOW=$(tput setaf 3)
-export NC=$(tput sgr0) # No Color
 
 if [[ -n $(ls -A $ZDOTDIR/.zshenv.d/ 2>/dev/null) ]]; then
     for f in $ZDOTDIR/.zshenv.d/*; do

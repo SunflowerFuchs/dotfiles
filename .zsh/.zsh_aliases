@@ -4,9 +4,9 @@
 alias sudo="sudo "
 
 # ls aliases
-alias l="ls -lah --group-directories-first"
-alias la="ls -lAh --group-directories-first"
-alias ll="ls -lh --group-directories-first"
+alias l="ls -lah"
+alias la="ls -lAh"
+alias ll="ls -lh"
 
 # shortcuts
 alias genpw="pwgen -cCBnsyv 16 64"
@@ -18,13 +18,14 @@ alias clear="clear; tmux clear-history"
 alias coverage="phpunit --coverage-html /var/www/coverage/"
 alias whide="xprop -f _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS '0x2, 0x0, 0x0, 0x0, 0x0'"
 alias wshow="xprop -f _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS '0x2, 0x0, 0x1, 0x0, 0x0'"
+alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 # setting default options
 alias progress="progress -M"
 alias grep="grep --text --color --ignore-case"
 alias pstree="pstree -s -p -a -G"
 alias pgrep="pgrep -fa"
-alias mkdir="mkdir --parents"
+alias rg="rg -IN --no-heading --pcre2"
 alias fzf="fzf --preview='head -100 {}'"
 alias php="XDEBUG_CONFIG='idekey=PHPSTORM' php"
 alias df="df -h"

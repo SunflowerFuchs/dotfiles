@@ -9,20 +9,25 @@ COMPLETION_WAITING_DOTS="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    tmux
     sudo
     wd
-    pip
-#    composer
-    gulp
     fast-syntax-highlighting
-    ve
     colorize
     zsh-completions
-    docker
-    docker-compose
-    docker-machine
 )
+
+# dynamic plugin loading
+[[ -x "$(command -v tmux)" ]] && plugins+=(tmux)
+[[ -x "$(command -v pip)" ]] && plugins+=(pip)
+[[ -x "$(command -v gulp)" ]] && plugins+=(gulp)
+[[ -x "$(command -v virtualenv)" ]] && plugins+=(ve)
+[[ -x "$(command -v docker)" ]] && plugins+=(docker)
+[[ -x "$(command -v docker-compose)" ]] && plugins+=(docker-compose)
+[[ -x "$(command -v docker-machine)" ]] && plugins+=(docker-machine)
+[[ -x "$(command -v composer)" ]] && plugins+=(composer)
+[[ -x "$(command -v git)" ]] && plugins+=(git-auto-fetch)
+[ -x "$(command -v kubeadm)" -o -x "$(command -v minikube)" -o -x "$(command -v kubectl)" ] && plugins+=(k8)
+[[ -d "/nix" ]] && plugins+=(nix-zsh-completions)
 
 # ZSH theme
 ZSH_THEME="spaceship"
@@ -77,12 +82,14 @@ export FAST_HIGHLIGHT[git-cmsg-len]=120
 # tmuxinator completion
 [ -f $HOME/.config/tmuxinator.zsh ] && source $HOME/.config/tmuxinator.zsh
 
-# reload completions
-autoload -U compinit && compinit
-
 # Gulp completion
 if [ -x "$(command -v gulp)" ]; then
-    eval "$(gulp --completion=zsh)"
+    source <(gulp --completion=zsh)
+fi
+
+# thefuck completion
+if [ -x "$(command -v thefuck)" ]; then
+    eval $(thefuck --alias)
 fi
 
 # show terminal startup messages

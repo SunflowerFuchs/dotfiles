@@ -64,24 +64,26 @@ function gr {
     esac
 }
 
+function getNginxDomains {
+    grep 'server_name' --dereference-recursive --no-filename /etc/nginx/sites-enabled/ \
+        | ag 'server_name( [a-zA-Z0-9\.\*]+)+' \
+        | ag --invert-match '^\s*#' \
+        | perl -0p -e 's/(?:server_name )(.+)(?:;)/$1/g' \
+        | tr ' ' '\n' \
+        | tr -d '\t ' \
+        | awk '{print $0"\nlocalhost"}' \
+        | sort \
+        | uniq \
+        | ag '^[A-Za-z0-9\.\*]+$' \
+        | tr '\n' ' '
+}
+
 # call mkcert with each domain name set in nginx/sites-enabled/
 function mkcert-quick {
     mkcert \
         -cert-file ~/Documents/certificates/local/my.dev.lamapoll.pem \
         -key-file ~/Documents/certificates/local/my.dev.lamapoll-key.pem \
-        $(\
-              grep 'server_name' --dereference-recursive --no-filename /etc/nginx/sites-enabled/ \
-            | ag 'server_name( [a-zA-Z0-9\.\*]+)+' \
-            | ag --invert-match '^\s*#' \
-            | perl -0p -e 's/(?:server_name )(.+)(?:;)/$1/g' \
-            | tr ' ' '\n' \
-            | tr -d '\t ' \
-            | awk '{print $0"\nlocalhost"}' \
-            | sort \
-            | uniq \
-            | ag '^[A-Za-z0-9\.\*]+$' \
-            | tr '\n' ' '\
-        )
+        $(getNginxDomains)
 
     # additionally, create a PKCS12 certificate file
     openssl pkcs12 \
@@ -90,12 +92,29 @@ function mkcert-quick {
         -out ~/Documents/certificates/local/my.dev.lamapoll.p12 \
         -inkey ~/Documents/certificates/local/my.dev.lamapoll-key.pem \
         -passout pass:Passw0rd!
+
+    sudo service nginx reload
+}
+
+# decode a jwt token
+function jwtd {
+    local input=""
+    if [ $# -ne 0 ]; then
+        input=$(echo "$*")
+    elif [ -p /dev/stdin ]; then
+        input=$(cat /dev/stdin)
+    else
+        echo "No input given" >&2
+        return 1
+    fi
+
+    jq -R 'split(".") | .[0],.[1] | @base64d | fromjson' <<< "${input}"
 }
 
 # show the weather
 function wttr {
-    local request="wttr.in/${1-Berlin}"
-    [ "$COLUMNS" -lt 125 ] && request+='?n'
+    local request="wttr.in/${1-$WTTR_LOCATION}?${2-m}"
+    [ "$COLUMNS" -lt 125 ] && request+='&n'
     curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
 }
 
