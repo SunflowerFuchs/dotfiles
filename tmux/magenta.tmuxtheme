@@ -13,24 +13,20 @@
 set-option -g status-interval 1
 
 # Basic status bar colors
-set-option -g status-style fg=colour240,bg=colour233
+set-option -g status-style fg=colour236,bg=colour255
 
 # Left side of status bar
-set-option -g status-left-style fg=colour243,bg=colour233
-set-option -g status-left-length 40
-set-option -g status-left "#[fg=colour233,bg=colour125,bold] #S #[fg=colour125,bg=colour235]#[fg=colour240,bg=colour235] #I:#P #[fg=colour235,bg=colour233,nobold]"
+set-option -g status-left "#[fg=colour236,bg=colour45,bold] #S #[fg=colour45,bg=colour211]#[fg=colour236,bg=colour211] #I:#P #[fg=colour211,bg=colour255,nobold]"
 
 # Right side of status bar
-set-option -g status-right-style fg=colour243,bg=colour233
-set-option -g status-right-length 150
 set-option -g status-right \
-"#[fg=colour235,bg=colour233]#[fg=colour240,bg=colour235] #H "\
-"#[fg=colour125,bg=colour235]#[fg=colour233,bg=colour125] %d-%b-%y "\
-"#[fg=colour28,bg=colour125]#[fg=colour226,bg=colour28,bold] #(upower -i $(upower -e | grep bat) | grep 'percentage' | grep -Eo '[0-9]+%') "
+"#[fg=colour211,bg=colour255]#[fg=colour236,bg=colour211] #H "\
+"#[fg=colour45,bg=colour211]#[fg=colour236,bg=colour45] %d-%b-%y "\
+"#(upower -i $(upower -e | grep bat) | grep 'percentage' | grep -Eo '[0-9]+%' | sed -r 's/^(.+)$/ \1 /')"
 
 # Window status
 set-option -g window-status-format '  #I: #W@#(echo "#{pane_current_path}" | sed 's@$HOME@~@' | rev | cut -d'/' -f-1 | rev)  '
-set-option -g window-status-current-format '#[fg=colour233,bg=black]#[fg=colour129,nobold] #I: #[fg=colour40,nobold]#W#[fg=colour3,nobold]@#[fg=colour12,nobold]#(echo "#{pane_current_path}" | sed 's@$HOME@~@' | rev | cut -d'/' -f-1 | rev) #[fg=colour233,bg=black,nobold]'
+set-option -g window-status-current-format '#[fg=colour255,bg=colour251]#[fg=colour129,nobold] #I: #[fg=colour34,nobold]#W#[fg=colour3,nobold]@#[fg=colour12,nobold]#(echo "#{pane_current_path}" | sed 's@$HOME@~@' | rev | cut -d'/' -f-1 | rev) #[fg=colour255,bg=colour251,nobold]'
 
 # Current window status
 set-option -g window-status-current-style fg=colour235,bg=colour125
