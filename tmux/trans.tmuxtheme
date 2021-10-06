@@ -21,8 +21,9 @@ set-option -g status-left "#[fg=colour236,bg=colour45,bold] #S #[fg=colour45,bg=
 # Right side of status bar
 set-option -g status-right \
 "#[fg=colour211,bg=colour255]#[fg=colour236,bg=colour211] #H "\
-"#[fg=colour45,bg=colour211]#[fg=colour236,bg=colour45] %d-%b-%y "\
-"#(upower -i $(upower -e | grep bat) | grep 'percentage' | grep -Eo '[0-9]+%' | sed -r 's/^(.+)$/ \1 /')"
+"#[fg=colour45,bg=colour211]#[fg=colour236,bg=colour45] %d-%b-%y "
+
+# "#(upower -i $(upower -e | grep bat) | grep 'percentage' | grep -Eo '[0-9]+%' | sed -r 's/^(.+)$/ \1 /')"
 
 # Window status
 set-option -g window-status-format '  #I: #W@#(echo "#{pane_current_path}" | sed 's@$HOME@~@' | rev | cut -d'/' -f-1 | rev)  '
