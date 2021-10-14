@@ -20,6 +20,12 @@ alias whide="xprop -f _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS '0x2, 0x0, 0x0, 0
 alias wshow="xprop -f _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS '0x2, 0x0, 0x1, 0x0, 0x0'"
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
+if [[ -x "$(command -v pygmentize)" ]]; then
+    alias ccat="pygmentize -g -O style=rrt"
+elif [[ -x "$(command -v highlight)" ]]; then
+    alias ccat="highlight -O ansi --force"
+fi
+
 # setting default options
 alias progress="progress -M"
 alias grep="grep --text --color --ignore-case"
