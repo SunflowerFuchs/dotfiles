@@ -96,8 +96,7 @@ getTmux() {
         fi
     fi
 
-    mkdir -p "${HOME}/.config/tmux-themes/"
-    [[ ! -e "${HOME}/.config/tmux-themes/magenta.tmuxtheme" ]] && ln -s "${dotfiles}/tmux/magenta.tmuxtheme" "${HOME}/.config/tmux-themes/magenta.tmuxtheme"
+    [[ ! -e "${HOME}/.config/tmux-themes/" ]] && ln -s "${dofiles}/tmux/themes/" "${HOME}/.config/tmux-themes"
     [[ ! -e "${HOME}/.tmux.conf" ]] && ln -s "${dotfiles}/tmux/.tmux.conf" "${HOME}/.tmux.conf"
 }
 

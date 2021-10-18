@@ -35,6 +35,7 @@ if [ -x "$(command -v mkcert)" ]; then
 fi
 
 # tmux vars
+export TMUX_THEME='trans'
 if [ ! -z $DISPLAY ]; then
     # in graphical environments
     export ZSH_TMUX_AUTOSTART=true
