@@ -1,0 +1,14 @@
+if [ -x "$(command -v mail)" ]; then
+  mail -e >/dev/null 2>&1 && echo "You have mail!"
+fi
+
+# Source other message files
+if [[ -n $(ls -A $ZDOTDIR/.zsh_message.d/ 2>/dev/null) ]]; then
+    for f in $ZDOTDIR/.zsh_message.d/*; do
+        source "$f"
+    done
+fi
+
+# Always end with a clean exit code
+true
+
