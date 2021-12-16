@@ -92,5 +92,8 @@ if [ -x "$(command -v thefuck)" ]; then
     eval $(thefuck --alias)
 fi
 
+# reload completion
+autoload -U compinit && compinit
+
 # show terminal startup messages
 [ -f $ZDOTDIR/.zsh_message ] && source $ZDOTDIR/.zsh_message
