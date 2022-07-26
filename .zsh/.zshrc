@@ -60,6 +60,7 @@ setopt GLOB_DOTS                 # Files with leading dots are not hidden from g
 setopt CSH_NULL_GLOB             # Delete globs that don't match (and only report error if all globs in command have no matches)
 setopt GLOB_COMPLETE             # Don't explode globs when autocompleting, but show results instead
 setopt KSH_GLOB                  # In pattern matching, enable qualifiers (e.g. "*(pattern)" or "?(pattern)")
+setopt RM_STAR_SILENT            # Don't ask before executing `rm *`
 
 unsetopt AUTO_CD                 # Don't cd into directories without an explicit cd
 unsetopt CDABLE_VARS             # Don't try to resolve unknown cd expressions into directories
