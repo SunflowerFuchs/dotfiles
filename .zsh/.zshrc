@@ -92,6 +92,11 @@ if [ -x "$(command -v thefuck)" ]; then
     eval $(thefuck --alias)
 fi
 
+# mutagen-compose completion
+if [ -x "$(command -v mutagen-compose)" ]; then
+    compdef mutagen-compose=docker-compose
+fi
+
 # reload completion
 autoload -U compinit && compinit
 
