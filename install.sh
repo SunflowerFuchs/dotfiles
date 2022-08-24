@@ -136,7 +136,7 @@ getTmux() {
         fi
     fi
 
-    [[ ! -e "${HOME}/.config/tmux-themes/" ]] && ln -s "${dofiles}/tmux/themes/" "${HOME}/.config/tmux-themes"
+    [[ ! -e "${HOME}/.config/tmux-themes/" ]] && ln -s "${dotfiles}/tmux/themes/" "${HOME}/.config/tmux-themes"
     [[ ! -e "${HOME}/.tmux.conf" ]] && ln -s "${dotfiles}/tmux/.tmux.conf" "${HOME}/.tmux.conf"
 }
 
