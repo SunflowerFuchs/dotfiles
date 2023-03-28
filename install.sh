@@ -27,6 +27,10 @@ preInstall() {
         # user is part of sudoers
         IS_ADMIN=true
         SUDO="sudo"
+    elif groups | grep --word-regexp 'wheel' >/dev/null 2>&1; then
+        # user is part of wheel, the arch variant of sudo i guess
+        IS_ADMIN=true
+        SUDO="sudo"
     elif [[ $(id -ur) -eq 0 ]]; then
         # root
         IS_ADMIN=true
@@ -47,6 +51,8 @@ preInstall() {
     elif [[ -x "$(command -v nix-env)" ]]; then
         # INSTALL="nix-env -f '<nixpkgs>' -i"
         INSTALL="nix-env -i"
+    elif [[ -x "$(command -v pacman)" ]]; then
+        INSTALL="${SUDO} pacman -S --noconfirm"
     else
         echo "Could not find a supported package manager. Exiting..."
         exit 1
@@ -78,6 +84,8 @@ runUpdates() {
         nix-env -i > /dev/null 2>&1
         # not sure whether a hard update here is better or worse
         # ${PKG} -u '*'
+    elif [[ -x "$(command -v pacman)" ]]; then
+        ${SUDO} pacman -Syu
     else
         echo "Not sure how you got here, but i cannot update your packages. Sucks for you."
         exit 1
@@ -147,6 +155,13 @@ getMicro() {
         echo "Installing micro..."
         if [[ -x "$(command -v nix-env)" ]] && [[ "$IS_ADMIN" = true ]]; then
             # luckily, nix has a pre-build micro package
+            ${INSTALL} micro > /dev/null 2>&1
+            if [ $? -ne 0 ]; then
+                echo "Something went wrong..."
+                exit 1
+            fi
+	elif [[ -x "$(command -v pacman)" ]] && [[ "$IS_ADMIN" = true ]]; then
+            # luckily, arch also has a pre-build micro package
             ${INSTALL} micro > /dev/null 2>&1
             if [ $? -ne 0 ]; then
                 echo "Something went wrong..."
