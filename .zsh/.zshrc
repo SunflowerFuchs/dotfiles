@@ -21,8 +21,7 @@ plugins=(
 [[ -x "$(command -v pip)" ]] && plugins+=(pip)
 [[ -x "$(command -v gulp)" ]] && plugins+=(gulp)
 [[ -x "$(command -v virtualenv)" ]] && plugins+=(ve)
-[[ -x "$(command -v docker)" ]] && plugins+=(docker)
-[[ -x "$(command -v docker-compose)" ]] && plugins+=(docker-compose)
+[[ -x "$(command -v docker)" ]] && plugins+=(docker docker-compose)
 [[ -x "$(command -v docker-machine)" ]] && plugins+=(docker-machine)
 [[ -x "$(command -v composer)" ]] && plugins+=(composer)
 [[ -x "$(command -v git)" ]] && plugins+=(git-auto-fetch)
@@ -66,6 +65,7 @@ unsetopt AUTO_CD                 # Don't cd into directories without an explicit
 unsetopt CDABLE_VARS             # Don't try to resolve unknown cd expressions into directories
 unsetopt AUTO_REMOVE_SLASH       # Don't remove slashes from typed commands when inserting spaces
 unsetopt BANGHIST                # Don't use ! as history shortcuts
+unsetopt EXTENDED_GLOB           # Don't use ^, # and ~ as globbing characters
 
 # load prompt config
 [[ -f $ZDOTDIR/.spaceship-settings ]] && source "$ZDOTDIR/.spaceship-settings"
