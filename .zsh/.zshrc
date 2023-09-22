@@ -4,6 +4,9 @@ export ZSH=$HOME/.oh-my-zsh
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
+# delayed startup for nvm
+zstyle ':omz:plugins:nvm' lazy yes
+
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -27,6 +30,7 @@ plugins=(
 [[ -x "$(command -v git)" ]] && plugins+=(git-auto-fetch)
 [ -x "$(command -v kubeadm)" -o -x "$(command -v minikube)" -o -x "$(command -v kubectl)" ] && plugins+=(k8)
 [[ -d "/nix" ]] && plugins+=(nix-zsh-completions)
+[[ -d "$HOME/.nvm" ]] && plugins+=(nvm)
 
 # ZSH theme
 ZSH_THEME="spaceship"
