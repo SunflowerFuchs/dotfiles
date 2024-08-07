@@ -69,6 +69,11 @@ runUpdates() {
         return
     fi
 
+    if [[ ! -z "$SKIP_UPDATE" ]]; then
+    		# Allows us to skip system updates, should we want that for some reason
+				return
+    fi
+
     echo "Running updates..."
     if [[ -x "$(command -v brew)" ]]; then
         brew update > /dev/null 2>&1
