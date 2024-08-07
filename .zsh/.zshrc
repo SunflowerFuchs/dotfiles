@@ -28,6 +28,14 @@ plugins=(
 [ -x "$(command -v kubeadm)" -o -x "$(command -v minikube)" -o -x "$(command -v kubectl)" ] && plugins+=(k8)
 [[ -d "/nix" ]] && plugins+=(nix-zsh-completions)
 
+AUTOENV_AUTH_FILE=${AUTOENV_AUTH_FILE:-"$HOME/.autoenv_authorized"}
+if [[ -f "$AUTOENV_AUTH_FILE" ]]; then
+    AUTOENV_ENV_FILENAME=.autoenv
+    AUTOENV_ENV_LEAVE_FILENAME=.autoenv.leave
+    AUTOENV_ENABLE_LEAVE=true
+    plugins+=(autoenv)
+fi
+
 if [[ -d "${NVM_DIR:-${HOME}/.nvm}" ]]; then
     zstyle ':omz:plugins:nvm' lazy yes
 # alternative, but slower on startup
