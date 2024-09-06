@@ -213,6 +213,27 @@ getMicro() {
     fi
 }
 
+getVim() {
+    if [[ ! -x "$(command -v vim)" ]]; then
+        if [[ ! "$IS_ADMIN" = true ]]; then
+            # Not an admin, cannot install vim
+            return
+        fi
+
+    fi
+
+    echo "Installing vim..."
+    ${INSTALL} vim > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "Something went wrong..."
+        exit 1
+    fi
+
+    if [[ ! -e "${HOME}/.vimrc" ]]; then
+        ln -s "${dotfiles}/vim/.vimrc" "${HOME}/.vimrc"
+    fi
+}
+
 getZsh() {
     getCurl
 
@@ -307,7 +328,8 @@ main() {
     preInstall
     runUpdates
     getTmux
-    getMicro
+#    getMicro
+    getVim
     getZsh
 }
 
