@@ -9,6 +9,7 @@ command! Diff vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
     \ | wincmd p | diffthis
 
 " Plugin Settings
+let NERDTreeShowHidden=1
 
 " Start NERDTree when Vim is started without file arguments.
 autocmd StdinReadPre * let s:std_in=1
