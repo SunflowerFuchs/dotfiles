@@ -14,6 +14,7 @@ alias nocomment="grep -Ev '^(#|;|$|(//)|(--))'"
 alias ducks="du -cksh * | sort -rh | head -11"
 alias pcp="rsync -avzh --progress"
 alias clear="clear; tmux clear-history"
+alias :q="exit"
 
 if [[ -x "$(command -v pygmentize)" ]]; then
     alias ccat="pygmentize -g -O style=rrt"
@@ -26,6 +27,7 @@ alias grep="grep --text --color --ignore-case"
 alias pstree="pstree -s -p -a -G"
 alias pgrep="pgrep -fa"
 alias fzf="fzf --preview='head -100 {}'"
+alias cp="cp -p"
 
 # git aliases
 alias gl="git log --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr, %cd) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short"
