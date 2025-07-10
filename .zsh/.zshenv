@@ -25,9 +25,15 @@ export fpath=("${HOME}/.oh-my-zsh/custom/completions" "/usr/share/zsh/vendor-com
 if [ -x "$(command -v gem)" ]; then
     export PATH="$(gem environment gempath):${PATH}"
 fi
+if [ -d "${HOME}/go/bin" ]; then
+    export PATH="${HOME}/go/bin:$PATH:/usr/sbin:/sbin"
+fi
 if [ -d "${HOME}/.local/bin" ]; then
     export PATH="${HOME}/.local/bin:$PATH:/usr/sbin:/sbin"
 fi
+
+# gpg
+export GPG_TTY=$(tty)
 
 # Add my local cert to the NODE cert storage
 if [ -x "$(command -v mkcert)" ]; then

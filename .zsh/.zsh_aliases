@@ -13,12 +13,8 @@ alias genpw="pwgen -cCBnsyv 16 64"
 alias nocomment="grep -Ev '^(#|;|$|(//)|(--))'"
 alias ducks="du -cksh * | sort -rh | head -11"
 alias pcp="rsync -avzh --progress"
-alias p="progress"
 alias clear="clear; tmux clear-history"
-alias coverage="phpunit --coverage-html /var/www/coverage/"
-alias whide="xprop -f _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS '0x2, 0x0, 0x0, 0x0, 0x0'"
-alias wshow="xprop -f _MOTIF_WM_HINTS 32c -set _MOTIF_WM_HINTS '0x2, 0x0, 0x1, 0x0, 0x0'"
-alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias :q="exit"
 
 if [[ -x "$(command -v pygmentize)" ]]; then
     alias ccat="pygmentize -g -O style=rrt"
@@ -27,20 +23,14 @@ elif [[ -x "$(command -v highlight)" ]]; then
 fi
 
 # setting default options
-alias progress="progress -M"
 alias grep="grep --text --color --ignore-case"
 alias pstree="pstree -s -p -a -G"
 alias pgrep="pgrep -fa"
-alias rg="rg --no-filename --no-heading --no-line-number --pcre2"
 alias fzf="fzf --preview='head -100 {}'"
-alias php="XDEBUG_CONFIG='idekey=PHPSTORM' php"
-alias df="df -h"
-alias du="du -h"
+alias cp="cp -p"
 
 # git aliases
 alias gl="git log --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr, %cd) %C(bold blue)<%an>%Creset' --abbrev-commit --date=short"
-alias gc="git checkout"
-alias gp="git pull"
 
 # source additional alias files
 if [[ -n $(ls -A $ZDOTDIR/.zsh_aliases.d/ 2>/dev/null) ]]; then
