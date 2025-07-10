@@ -7,7 +7,7 @@ export LC_TIME=C
 export LC_COLLATE=C
 
 # Editor vars
-export VISUAL="micro"
+export VISUAL="vim"
 export EDITOR="$VISUAL"
 
 # pager stuff
