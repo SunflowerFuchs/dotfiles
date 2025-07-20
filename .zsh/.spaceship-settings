@@ -20,3 +20,8 @@ SPACESHIP_KUBECONTEXT_SHOW=false
 SPACESHIP_EXIT_CODE_SHOW=true
 SPACESHIP_TIME_SHOW=true
 SPACESHIP_HOST_SHOW=always
+
+# async behavior
+# to fix a bug (as of 4.19.0), there is a workaround that requires manual intervention by adding a sleep to async.zsh
+# see https://github.com/spaceship-prompt/spaceship-prompt/issues/1193#issuecomment-1722579999
+SPACESHIP_PROMPT_ASYNC=true

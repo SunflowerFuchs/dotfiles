@@ -50,6 +50,9 @@ ZSH_THEME="spaceship"
 # enable autoupdate
 DISABLE_UPDATE_PROMPT=true
 
+# disable compinit security check for speed reasons (yes, i know its insecure, but its 35% of my startup time)
+# ZSH_DISABLE_COMPFIX=true
+
 # load oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
@@ -115,7 +118,8 @@ if [ -x "$(command -v mutagen-compose)" ]; then
 fi
 
 # reload completion
-autoload -U compinit && compinit
+# disabled for startup speedup, will have to see what breaks
+# autoload -U compinit && compinit
 
 # show terminal startup messages
 [ -f $ZDOTDIR/.zsh_message ] && source $ZDOTDIR/.zsh_message
