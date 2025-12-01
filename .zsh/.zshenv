@@ -25,6 +25,9 @@ export fpath=("${HOME}/.oh-my-zsh/custom/completions" "/usr/share/zsh/vendor-com
 if [ -x "$(command -v gem)" ]; then
     export PATH="$(gem environment gempath):${PATH}"
 fi
+if [ -x "$(command -v brew)" ]; then
+    eval "$(brew shellenv)"
+fi
 if [ -d "${HOME}/go/bin" ]; then
     export PATH="${HOME}/go/bin:$PATH:/usr/sbin:/sbin"
 fi
