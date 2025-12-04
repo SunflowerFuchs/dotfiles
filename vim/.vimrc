@@ -5,6 +5,12 @@ set number relativenumber
 set tabstop=4
 set shiftwidth=4
 
+" To prevent the default modelines to cause issues, i use the securemodelines plugin instead
+" set modeline=yes
+" set modelines=5
+set nomodeline
+let g:secure_modelines_verbose=1
+
 " Convenient command to see the difference between the current buffer and the
 " " file it was loaded from, thus the changes you made.
 command! Diff vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
@@ -32,6 +38,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'scrooloose/nerdtree'
 Plug 'sheerun/vim-polyglot'
 Plug 'mechatroner/rainbow_csv'
+Plug 'ypcrts/securemodelines'
 call plug#end()
 endif
 
