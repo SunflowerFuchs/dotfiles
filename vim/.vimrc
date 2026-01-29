@@ -1,6 +1,6 @@
 " Vim Settings
-set backupcopy=yes
 set nocompatible
+set backupcopy=yes
 set number relativenumber
 set tabstop=4
 set shiftwidth=4
