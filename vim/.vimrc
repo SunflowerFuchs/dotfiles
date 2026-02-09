@@ -4,6 +4,8 @@ set backupcopy=yes
 set number relativenumber
 set tabstop=4
 set shiftwidth=4
+set ignorecase
+set smartcase
 
 " To prevent the default modelines to cause issues, i use the securemodelines plugin instead
 " set modeline=yes
